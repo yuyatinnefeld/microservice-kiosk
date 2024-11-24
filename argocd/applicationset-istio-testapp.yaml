@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: argocd-applicationset
+  namespace: argocd
+spec:
+  generators:
+    - list:
+        elements:
+          - cluster: "my-cluster"
+  template:
+    metadata:
+      name: "istio-testapp"
+    spec:
+      project: default
+      sources:  # Change from 'source' to 'sources' for multi-source support
+        - repoURL: "https://github.com/yuyatinnefeld/microservice-kiosk.git"
+          path: app/helm
+          helm:
+            valueFiles:
+              - values.yaml
+            parameters:
+              - name: project
+                value: "argocd-project"
+              - name: stage
+                value: "argocd-stage"
+      destination:
+        server: 'https://kubernetes.default.svc'
+        namespace: default
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
