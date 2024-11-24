@@ -1,0 +1,40 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: argocd-applicationset
+  namespace: argocd
+spec:
+  generators:
+    list:
+      elements:
+        #- name: my-app
+        #  path: app/helm
+        #  namespace: istio-testapp
+        #  valuesFile: values.yaml
+        - name: istio-base
+          path: istio/helm/base
+          namespace: istio-system
+          valuesFile: values.yaml
+        #- name: istiod
+        #  path: istio/helm/istiod
+        #  namespace: istio-system
+        #  valuesFile: values.yaml
+  template:
+    metadata:
+      name: "{{name}}"
+    spec:
+      project: default
+      source:
+        repoURL: "https://github.com/yuyatinnefeld/microservice.git"
+        targetRevision: HEAD
+        path: "{{path}}"
+        helm:
+          valueFiles:
+            - "{{valuesFile}}"
+      destination:
+        server: 'https://kubernetes.default.svc'
+        namespace: "{{namespace}}"
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
