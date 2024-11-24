@@ -1,18 +1,30 @@
 apiVersion: argoproj.io/v1alpha1
-kind: Application
+kind: ApplicationSet
 metadata:
-  name: argocd-application
+  name: argocd-app
   namespace: argocd
 spec:
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: default
-  project: default
-  sources:
-  - repoURL: "https://github.com/yuyatinnefeld/microservice-kiosk.git"
-    path: app/helm
-  # - repoURL: "https://github.com/yuyatinnefeld/microservice-kiosk.git"
-  #   path: istio
-  #   helm:
-  #     valueFiles:
-  #     - values.yaml
+  template:
+    metadata:
+      name: "test-argocd-app"
+    spec:
+      project: default
+      source:
+        repoURL: "https://github.com/yuyatinnefeld/microservice-kiosk.git"
+        targetRevision: HEAD
+        path: app/helm
+        helm:
+          valueFiles:
+            - values.yaml
+          parameters:
+            - name: project
+              value: "argocd-project"
+            - name: stage
+              value: "argocd-stage"
+      destination:
+        server: 'https://kubernetes.default.svc'
+        namespace: default
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
