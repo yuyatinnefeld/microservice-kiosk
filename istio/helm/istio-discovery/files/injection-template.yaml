@@ -72,7 +72,7 @@ spec:
   initContainers:
   {{ if ne (annotation .ObjectMeta `sidecar.istio.io/interceptionMode` .ProxyConfig.InterceptionMode) `NONE` }}
   {{ if .Values.pilot.cni.enabled -}}
-  - name: istio-validation
+  - name: istio-init
   {{ else -}}
   - name: istio-init
   {{ end -}}
