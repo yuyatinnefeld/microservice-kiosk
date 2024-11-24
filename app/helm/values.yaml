@@ -1,19 +1,25 @@
-namespace: istio-testapp
-replicaCount: 1
+# GLOBAL PARAMETER
+global:
+  namespace: istio-testapp
+  replicaCount: 1
 
-image:
-  repository: docker.io/mccutchen/go-httpbin
-  tag: v2.15.0
-  pullPolicy: IfNotPresent
+# ISTIO PARAMETER
+istio:
+  injection: enabled
+  injectSidecar: true
 
-service:
-  name: httpbin
-  port: 8080
-  targetPort: 8080
-
-serviceAccount:
-  name: httpbin
-
-labels:
-  app: httpbin
-  version: v1
+# TARGET APP PARAMETER
+httpbin:
+  image:
+    repository: docker.io/mccutchen/go-httpbin
+    tag: v2.15.0
+    pullPolicy: IfNotPresent
+  service:
+    name: httpbin
+    port: 8080
+    targetPort: 8080
+  serviceAccount:
+    name: httpbin
+  labels:
+    app: httpbin
+    version: v1

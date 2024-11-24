@@ -1,24 +1,28 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.service.name }}
-  namespace: {{ .Values.namespace }}
+  name: {{ .Values.httpbin.service.name }}
+  namespace: {{ .Values.global.namespace }}
+  labels:
+    istio-injection: {{ .Values.istio.injection | default "enabled" }}
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: {{ .Values.global.replicaCount }}
   selector:
     matchLabels:
-      app: {{ .Values.labels.app }}
-      version: {{ .Values.labels.version }}
+      app: {{ .Values.httpbin.labels.app }}
+      version: {{ .Values.httpbin.labels.version }}
   template:
     metadata:
       labels:
-        app: {{ .Values.labels.app }}
-        version: {{ .Values.labels.version }}
+        app: {{ .Values.httpbin.labels.app }}
+        version: {{ .Values.httpbin.labels.version }}
+      annotations:
+        sidecar.istio.io/inject: "{{ .Values.istio.injectSidecar | default "true" }}"
     spec:
-      serviceAccountName: {{ .Values.serviceAccount.name }}
+      serviceAccountName: {{ .Values.httpbin.serviceAccount.name }}
       containers:
-        - name: {{ .Values.service.name }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+        - name: {{ .Values.httpbin.service.name }}
+          image: "{{ .Values.httpbin.image.repository }}:{{ .Values.httpbin.image.tag }}"
+          imagePullPolicy: {{ .Values.httpbin.image.pullPolicy }}
           ports:
-            - containerPort: {{ .Values.service.port }}
+            - containerPort: {{ .Values.httpbin.service.port }}
