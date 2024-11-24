@@ -1,30 +1,5 @@
 # "_internal_defaults_do_not_set" is a workaround for Helm limitations. Users should NOT set "._internal_defaults_do_not_set" explicitly, but rather directly set the fields internally.
 # For instance, instead of `--set _internal_defaults_do_not_set.foo=bar``, just set `--set foo=bar`.
-# "defaults" is a workaround for Helm limitations. Users should NOT set ".defaults" explicitly, but rather directly set the fields internally.
-# For instance, instead of `--set defaults.foo=bar`, just set `--set foo=bar`.
-defaults:
-  global:
-    # ImagePullSecrets for control plane ServiceAccount, list of secrets in the same namespace
-    # to use for pulling any images in pods that reference this ServiceAccount.
-    # Must be set for any cluster configured with private docker registry.
-    imagePullSecrets: []
-
-    # Used to locate istiod.
-    istioNamespace: istio-system
-
-    externalIstiod: false
-    remotePilotAddress: ""
-
-    # Platform where Istio is deployed. Possible values are: "openshift", "gcp".
-    # An empty value means it is a vanilla Kubernetes distribution, therefore no special
-    # treatment will be considered.
-    platform: ""
-
-    # Setup how istiod Service is configured. See https://kubernetes.io/docs/concepts/services-networking/dual-stack/#services
-    # This is intended only for use with external istiod.
-    ipFamilyPolicy: ""
-    ipFamilies: []
-
 _internal_defaults_do_not_set:
   global:
 
