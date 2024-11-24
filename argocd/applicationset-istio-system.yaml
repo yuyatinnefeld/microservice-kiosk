@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: argocd-applicationset-istio-base
+  name: argocd-applicationset-istio-system
   namespace: argocd
 spec:
   generators:
@@ -10,12 +10,17 @@ spec:
           - cluster: "my-cluster"
   template:
     metadata:
-      name: "istio-system-base"
+      name: "istio-system"
     spec:
       project: default
       sources:
         - repoURL: "https://github.com/yuyatinnefeld/microservice-kiosk.git"
           path: istio/helm/base
+          helm:
+            valueFiles:
+              - values.yaml
+        - repoURL: "https://github.com/yuyatinnefeld/microservice-kiosk.git"
+          path: istio/helm/istio-discovery
           helm:
             valueFiles:
               - values.yaml
