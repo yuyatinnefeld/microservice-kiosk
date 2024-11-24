@@ -32,6 +32,7 @@ sleep:
   serviceAccount:
     name: sleep
   service:
+    name: sleep
     type: ClusterIP
     port: 80
   labels:
