@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: istio-testapp
+  name: istio-system
 ---
 apiVersion: v1
 kind: Namespace
@@ -11,9 +11,14 @@ metadata:
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: istio-system
+  name: istio-monitor
+  labels:
+    istio-injection: enabled
 ---
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: istio-monitor
+  name: istio-testapp
+  labels:
+    istio-injection: enabled
+---
