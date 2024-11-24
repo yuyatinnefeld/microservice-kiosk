@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.sleep.labels.app }}
+  namespace: {{ .Values.global.namespace }}
+spec:
+  replicas: {{ .Values.global.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.sleep.labels.app }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.sleep.labels.app }}
+    spec:
+      terminationGracePeriodSeconds: 0
+      serviceAccountName: {{ .Values.sleep.serviceAccount.name }}
+      containers:
+        - name: {{ .Values.sleep.labels.app }}
+          image: "{{ .Values.sleep.image.repository }}:{{ .Values.sleep.image.tag }}"
+          imagePullPolicy: {{ .Values.sleep.image.pullPolicy }}
+          command: ["/bin/sleep", "infinity"]
+          volumeMounts:
+            - mountPath: /etc/sleep/tls
+              name: secret-volume
+      volumes:
+        - name: secret-volume
+          secret:
+            secretName: {{ .Values.sleep.secretName }}
+            optional: true
+      {{- if .Values.istio.injectSidecar }}
+      # Istio sidecar injection will happen automatically when injected by Istio
+      {{- else }}
+      # Explicitly disable sidecar injection (if needed)
+      sidecar.istio.io/inject: "false"
+      {{- end }}

@@ -23,3 +23,17 @@ httpbin:
   labels:
     app: httpbin
     version: v1
+
+sleep:
+  image:
+    repository: curlimages/curl
+    pullPolicy: IfNotPresent
+    tag: latest
+  serviceAccount:
+    name: sleep
+  service:
+    type: ClusterIP
+    port: 80
+  labels:
+    app: sleep
+  secretName: sleep-secret
