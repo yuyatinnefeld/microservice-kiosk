@@ -7,13 +7,10 @@ spec:
   destination:
     server: https://kubernetes.default.svc
     namespace: default
-  project: istio-testapp
+  project: default
   sources:
   - repoURL: "https://github.com/yuyatinnefeld/microservice-kiosk.git"
-    path: istio/helm/base
-    helm:
-      valueFiles:
-      - values.yaml
+    path: app/helm
   # - repoURL: "https://github.com/yuyatinnefeld/microservice-kiosk.git"
   #   path: istio
   #   helm:
