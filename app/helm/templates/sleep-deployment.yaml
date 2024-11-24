@@ -13,7 +13,6 @@ spec:
       labels:
         app: {{ .Values.sleep.labels.app }}
     spec:
-      terminationGracePeriodSeconds: 0
       containers:
         - name: {{ .Values.sleep.labels.app }}
           image: "{{ .Values.sleep.image.repository }}:{{ .Values.sleep.image.tag }}"
