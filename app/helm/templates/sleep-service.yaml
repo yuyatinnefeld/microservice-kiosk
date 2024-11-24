@@ -10,7 +10,7 @@ spec:
   ports:
     - port: {{ .Values.sleep.service.port }}
       targetPort: {{ .Values.sleep.service.port }}
-      name: http
+      name: sleep
   selector:
     app: {{ .Values.sleep.labels.app }}
   type: {{ .Values.sleep.service.type }}

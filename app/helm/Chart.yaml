@@ -1,5 +1,5 @@
 apiVersion: v2
-name: httpbin
-description: A Helm chart for deploying the httpbin application
+name: testapp
+description: A Helm chart for deploying the testapp application
 version: 0.1.0
 appVersion: "v2.15.0"

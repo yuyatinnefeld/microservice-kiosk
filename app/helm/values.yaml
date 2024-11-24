@@ -29,6 +29,8 @@ sleep:
     repository: curlimages/curl
     pullPolicy: IfNotPresent
     tag: latest
+  serviceAccount:
+    name: sleep
   service:
     name: sleep
     type: ClusterIP
