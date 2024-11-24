@@ -16,6 +16,7 @@ spec:
       labels:
         app: {{ .Values.httpbin.labels.app }}
         version: {{ .Values.httpbin.labels.version }}
+        istio-injection: {{ .Values.istio.injection | default "enabled" }}
       annotations:
         sidecar.istio.io/inject: "{{ .Values.istio.injectSidecar | default "true" }}"
     spec:
