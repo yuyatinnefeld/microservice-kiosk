@@ -13,5 +13,5 @@ kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.pas
 kubectl port-forward svc/argocd-server -n argocd 8080:443
 
 # deploy applicationsets
-kubectl apply -f argocd/argocd-application-set.yaml
+kubectl apply -f argocd/applicationset.yaml
 ```

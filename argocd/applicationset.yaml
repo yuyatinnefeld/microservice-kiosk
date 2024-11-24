@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argocd-application
+  namespace: argocd
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  project: istio-testapp
+  sources:
+  - repoURL: "https://github.com/yuyatinnefeld/microservice-kiosk.git"
+    path: istio/helm/base
+    helm:
+      valueFiles:
+      - values.yaml
+  # - repoURL: "https://github.com/yuyatinnefeld/microservice-kiosk.git"
+  #   path: istio
+  #   helm:
+  #     valueFiles:
+  #     - values.yaml
