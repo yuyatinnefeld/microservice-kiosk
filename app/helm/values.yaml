@@ -2,6 +2,7 @@
 global:
   namespace: istio-testapp
   replicaCount: 1
+  clusterName: my-cluster
 
 # ISTIO PARAMETER
 istio:
@@ -56,11 +57,4 @@ hw:
     app: hw
   serviceAccount:
     name: hw
-  deployments:
-    - version: v1
-      args:
-        - "-text=APP: HW-V1 | NS: istio-testapp | CLUSTER: {{ .Values.global.clusterName }}"
-    - version: v2
-      args:
-        - "-text=APP: HW-V2 | NS: istio-testapp | CLUSTER: {{ .Values.global.clusterName }}"
 
