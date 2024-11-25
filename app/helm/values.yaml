@@ -54,7 +54,8 @@ hw:
     protocol: TCP
   labels:
     app: hw
-
+  serviceAccount:
+    name: hw
   deployments:
     - version: v1
       args:
