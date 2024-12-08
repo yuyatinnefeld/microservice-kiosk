@@ -26,13 +26,13 @@ spec:
         - containerPort: {{ .Values.hw.service.port }}
         readinessProbe:
           httpGet:
-            path: /app-health/dest-container-v1/readyz
+            path: /app-health/dest-container-v2/readyz
             port: {{ .Values.hw.service.port }}
           initialDelaySeconds: 5
           periodSeconds: 10
         livenessProbe:
           httpGet:
-            path: /app-health/dest-container-v1/readyz
+            path: /app-health/dest-container-v2/readyz
             port: {{ .Values.hw.service.port }}
           initialDelaySeconds: 15
           periodSeconds: 30
