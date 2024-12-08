@@ -26,13 +26,11 @@ spec:
         - containerPort: {{ .Values.hw.service.port }}
         readinessProbe:
           httpGet:
-            path: /
             port: {{ .Values.hw.service.port }}
           initialDelaySeconds: 5
           periodSeconds: 10
         livenessProbe:
           httpGet:
-            path: /
             port: {{ .Values.hw.service.port }}
           initialDelaySeconds: 15
           periodSeconds: 30
