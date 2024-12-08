@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.sleep.service.name }}
+  namespace: {{ .Values.global.namespace }}
+  labels:
+    app: {{ .Values.sleep.labels.app }}
+    service: {{ .Values.sleep.service.name }}
+spec:
+  ports:
+  - port: {{ .Values.sleep.service.port }}
+    name: http
+  selector:
+    app: {{ .Values.sleep.labels.app }}

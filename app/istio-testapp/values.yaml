@@ -1,0 +1,72 @@
+# GLOBAL PARAMETER
+global:
+  namespace: istio-testapp
+  replicaCount: 1
+  clusterName: my-cluster
+
+# ISTIO PARAMETER
+istio:
+  injection: enabled
+  injectSidecar: true
+ 
+# HTTPBIN APP PARAMETER
+httpbin:
+  image:
+    repository: docker.io/mccutchen/go-httpbin
+    tag: v2.15.0
+    pullPolicy: IfNotPresent
+  service:
+    name: httpbin
+    port: 8080
+    targetPort: 8080
+  serviceAccount:
+    name: httpbin
+  labels:
+    app: httpbin
+    version: v1
+
+# SLEEP APP PARAMETER
+sleep:
+  image:
+    repository: curlimages/curl
+    pullPolicy: IfNotPresent
+    tag: latest
+  serviceAccount:
+    name: sleep
+  service:
+    name: sleep
+    type: ClusterIP
+    port: 80
+  labels:
+    app: sleep
+  secretName: sleep-secret
+
+# HW APP PARAMETER
+hw:
+  image:
+    repository: hashicorp/http-echo
+    tag: latest
+  service:
+    name: hw-svc
+    port: 7777
+    targetPort: 5678
+    containerPort: 7777
+    type: LoadBalancer
+    protocol: TCP
+  labels:
+    app: hw
+  serviceAccount:
+    name: hw
+
+# FORTIO APP PARAMETER
+fortio:
+  image:
+    repository: fortio/fortio
+    tag: latest
+    pullPolicy: IfNotPresent
+  service:
+    name: fortio
+    port: 8888
+    targetPort: 80
+  labels:
+    app: fortio

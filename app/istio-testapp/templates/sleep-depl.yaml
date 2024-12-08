@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.sleep.labels.app }}
+  namespace: {{ .Values.global.namespace }}
+spec:
+  replicas: {{ .Values.global.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.sleep.labels.app }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.sleep.labels.app }}
+    spec:
+      terminationGracePeriodSeconds: 0
+      serviceAccountName: {{ .Values.sleep.serviceAccount.name }}
+      containers:
+      - name: {{ .Values.sleep.labels.app }}
+        image: "{{ .Values.sleep.image.repository }}:{{ .Values.sleep.image.tag }}"
+        command: ["/bin/sleep", "infinity"]
+        imagePullPolicy: {{ .Values.sleep.image.pullPolicy }}
+        volumeMounts:
+        - mountPath: /etc/sleep/tls
+          name: secret-volume
+      volumes:
+      - name: secret-volume
+        secret:
+          secretName: {{ .Values.sleep.secretName }}
+          optional: true

@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: argocd-applicationset-istio-testapp
+  namespace: argocd
+spec:
+  generators:
+    - list:
+        elements:
+          - cluster: "my-cluster"
+  template:
+    metadata:
+      name: "istio-testapp"
+    spec:
+      project: default
+      sources:
+        - repoURL: "https://github.com/yuyatinnefeld/microservice-kiosk.git"
+          path: app/istio-testapp
+          helm:
+            valueFiles:
+              - values.yaml
+      destination:
+        server: 'https://kubernetes.default.svc'
+        namespace: istio-testapp
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true

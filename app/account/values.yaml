@@ -1,0 +1,5 @@
+# GLOBAL PARAMETER
+global:
+  namespace: shop
+  replicaCount: 1
+  clusterName: my-cluster

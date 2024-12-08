@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: argocd-applicationset-istio-system
+  namespace: argocd
+spec:
+  generators:
+    - list:
+        elements:
+          - cluster: "my-cluster"
+  template:
+    metadata:
+      name: "istio-system"
+    spec:
+      project: default
+      sources:
+        - repoURL: "https://github.com/yuyatinnefeld/microservice-kiosk.git"
+          path: istio/helm/base
+          helm:
+            valueFiles:
+              - values.yaml
+        - repoURL: "https://github.com/yuyatinnefeld/microservice-kiosk.git"
+          path: istio/helm/istio-discovery
+          helm:
+            valueFiles:
+              - values.yaml
+      destination:
+        server: 'https://kubernetes.default.svc'
+        namespace: istio-system
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true

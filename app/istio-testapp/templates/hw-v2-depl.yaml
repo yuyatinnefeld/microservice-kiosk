@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.hw.labels.app }}-v2
+  namespace: {{ .Values.global.namespace }}
+  labels:
+    version: v2
+spec:
+  replicas: {{ .Values.global.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.hw.labels.app }}
+      version: v2
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.hw.labels.app }}
+        version: v2
+    spec:
+      containers:
+      - name: dest-container-v2
+        image: "{{ .Values.hw.image.repository }}:{{ .Values.hw.image.tag }}"
+        args:
+          - "-text=APP: HW-V2 | NS: istio-testapp | CLUSTER: my-cluster" # TODO: Update with ArgoCD Parameter
+        ports:
+        - containerPort: {{ .Values.hw.service.containerPort }}

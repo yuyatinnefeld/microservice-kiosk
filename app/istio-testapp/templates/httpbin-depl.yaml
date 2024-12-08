@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.httpbin.service.name }}
+  namespace: {{ .Values.global.namespace }}
+spec:
+  replicas: {{ .Values.global.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.httpbin.labels.app }}
+      version: {{ .Values.httpbin.labels.version }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.httpbin.labels.app }}
+        version: {{ .Values.httpbin.labels.version }}
+    spec:
+      serviceAccountName: {{ .Values.httpbin.serviceAccount.name }}
+      containers:
+      - name: {{ .Values.httpbin.labels.app }}
+        image: "{{ .Values.httpbin.image.repository }}:{{ .Values.httpbin.image.tag }}"
+        imagePullPolicy: {{ .Values.httpbin.image.pullPolicy }}
+        ports:
+        - containerPort: {{ .Values.httpbin.service.port }}

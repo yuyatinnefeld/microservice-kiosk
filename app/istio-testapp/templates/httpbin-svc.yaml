@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.httpbin.service.name }}
+  namespace: {{ .Values.global.namespace }}
+  labels:
+    app: {{ .Values.httpbin.labels.app }}
+    service: {{ .Values.httpbin.service.name }}
+spec:
+  ports:
+  - name: http
+    port: {{ .Values.httpbin.service.port }}
+    targetPort: {{ .Values.httpbin.service.targetPort }}
+  selector:
+    app: {{ .Values.httpbin.labels.app }}
