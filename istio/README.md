@@ -1,6 +1,6 @@
 # Istion
 
-## Check
+## Check Istio Config
 ```bash
 # Verify
 istioctl verify-install
@@ -12,11 +12,9 @@ ISTIOD_POD="$(kubectl get pod -n istio-system -l app=istiod -o jsonpath='{.items
 kubectl logs $ISTIOD_POD -n istio-system
 ```
 
-## Deploy Gateway
+## Check VirtualService
 ```bash
-kubectl apply -f dr.yaml
 kubectl get dr -A
-kubectl apply -f vs-1.yaml
 kubectl get vs -A
 
 SLEEP_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
@@ -24,7 +22,23 @@ SLEEP_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
 # Check the Endpoints
 istioctl proxy-config endpoints $SLEEP_POD | grep 7777
 
-# Test Traffic Routing
+# Test Traffic Routing 99% V2
 TARGET_URL="hw-svc.istio-testapp.svc.cluster.local:7777"
 while true; do kubectl exec "$SLEEP_POD" -c sleep -- curl -sS $TARGET_URL; done;
+```
+
+## Check Ingress GW
+
+
+## Check Monitoring Tools
+
+```bash
+# Prometheus
+kubectl port-forward svc/prometheus -n istio-system 9090
+
+# Kiali
+kubectl port-forward svc/kiali -n istio-system 20001
+
+# Grafana
+kubectl port-forward svc/grafana -n istio-system 3000
 ```

@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    app.kubernetes.io/component: server
+    app.kubernetes.io/name: prometheus
+    app.kubernetes.io/instance: prometheus
+    app.kubernetes.io/version: {{ .Values.prometheus.version }}
+    helm.sh/chart: prometheus-25.30.1
+    app.kubernetes.io/part-of: prometheus
+  name: prometheus
+  namespace: {{ .Values.global.namespace }}
+data:
+  prometheus.yml: |
+    global:
+      evaluation_interval: 1m
+      scrape_interval: {{ .Values.prometheus.scrape_interval }}
+      scrape_timeout: {{ .Values.prometheus.scrape_timeout }}
+    rule_files:
+    - /etc/config/recording_rules.yml
+    - /etc/config/alerting_rules.yml
+    - /etc/config/rules
+    - /etc/config/alerts
+    scrape_configs:
+    - job_name: prometheus
+      static_configs:
+      - targets:
+        - localhost:9090
+    # Add other scrape configs as required

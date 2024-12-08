@@ -1,0 +1,15 @@
+# GLOBAL PARAMETER
+global:
+  namespace: istio-system #TODO: change later -> istio-monitor
+
+prometheus:
+  version: "v2.55.1"
+  replicas: 1
+  retention: "15d"
+  scrape_interval: "15s"
+  scrape_timeout: "10s"
+  alerting_rules: {}
+  recording_rules: {}
+  rules: {}
+  config_reload_image: "ghcr.io/prometheus-operator/prometheus-config-reloader:v0.78.1"
+  prometheus_image: "prom/prometheus:v2.55.1"

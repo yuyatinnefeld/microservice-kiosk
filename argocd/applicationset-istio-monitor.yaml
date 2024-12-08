@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: argocd-applicationset-istio-monitor
+  namespace: argocd
+spec:
+  generators:
+    - list:
+        elements:
+          - cluster: "my-cluster"
+  template:
+    metadata:
+      name: "istio-monitor"
+    spec:
+      project: default
+      sources:
+        - repoURL: "https://github.com/yuyatinnefeld/microservice-kiosk.git"
+          path: istio/helm/monitor
+          helm:
+            valueFiles:
+              - values.yaml
+      destination:
+        server: 'https://kubernetes.default.svc'
+        namespace: istio-system # TODO: update later > istio-monitor
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
