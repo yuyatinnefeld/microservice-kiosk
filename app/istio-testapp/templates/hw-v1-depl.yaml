@@ -23,4 +23,4 @@ spec:
         args:
           - "-text=APP: HW-V1 | NS: istio-testapp | CLUSTER: my-cluster" # TODO: Update with ArgoCD Parameter
         ports:
-        - containerPort: {{ .Values.hw.service.containerPort }}
+        - containerPort: {{ .Values.hw.service.port }}

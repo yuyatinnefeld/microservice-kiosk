@@ -17,8 +17,8 @@ httpbin:
     pullPolicy: IfNotPresent
   service:
     name: httpbin
-    port: 8080
     targetPort: 8080
+    port: 7775
   serviceAccount:
     name: httpbin
   labels:
@@ -48,9 +48,8 @@ hw:
     tag: latest
   service:
     name: hw-svc
-    port: 7777
     targetPort: 5678
-    containerPort: 7777
+    port: 7777
     type: LoadBalancer
     protocol: TCP
   labels:
@@ -66,7 +65,7 @@ fortio:
     pullPolicy: IfNotPresent
   service:
     name: fortio
-    port: 8888
     targetPort: 80
+    port: 7776
   labels:
     app: fortio

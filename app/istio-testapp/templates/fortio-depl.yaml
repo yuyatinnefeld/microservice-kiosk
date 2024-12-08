@@ -18,4 +18,4 @@ spec:
         image: "{{ .Values.fortio.image.repository }}:{{ .Values.fortio.image.tag }}"
         imagePullPolicy: {{ .Values.fortio.image.pullPolicy }}
         ports:
-        - containerPort: {{ .Values.fortio.service.targetPort }}
+        - containerPort: {{ .Values.fortio.service.port }}
