@@ -24,13 +24,3 @@ spec:
           - "-text=APP: HW-V1 | NS: istio-testapp | CLUSTER: my-cluster" # TODO: Update with ArgoCD Parameter
         ports:
         - containerPort: {{ .Values.hw.service.port }}
-        readinessProbe:
-          httpGet:
-            port: {{ .Values.hw.service.port }}
-          initialDelaySeconds: 5
-          periodSeconds: 10
-        livenessProbe:
-          httpGet:
-            port: {{ .Values.hw.service.port }}
-          initialDelaySeconds: 15
-          periodSeconds: 30
