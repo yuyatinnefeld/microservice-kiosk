@@ -1,0 +1,21 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: hw-virtualservice
+  namespace: {{ .Values.global.namespace }}
+spec:
+  hosts:
+  - {{ .Values.httpbin.service.name }}.{{ .Values.global.namespace }}.svc.cluster.local
+  http:
+  - match:
+    - uri:
+        prefix: /
+    route:
+    - destination:
+        host: {{ .Values.httpbin.service.name }}.{{ .Values.global.namespace }}.svc.cluster.local
+        subset: v1
+      weight: 1
+    - destination:
+        host: {{ .Values.httpbin.service.name }}.{{ .Values.global.namespace }}.svc.cluster.local
+        subset: v2
+      weight: 99
