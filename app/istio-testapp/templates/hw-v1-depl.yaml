@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.hw.labels.app }}-v1
+  name: hw-v1
   namespace: {{ .Values.global.namespace }}
   labels:
     version: v1
@@ -24,3 +24,15 @@ spec:
           - "-text=APP: HW-V1 | NS: istio-testapp | CLUSTER: my-cluster" # TODO: Update with ArgoCD Parameter
         ports:
         - containerPort: {{ .Values.hw.service.port }}
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: {{ .Values.hw.service.port }}
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: {{ .Values.hw.service.port }}
+          initialDelaySeconds: 15
+          periodSeconds: 30
