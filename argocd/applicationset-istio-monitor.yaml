@@ -15,7 +15,7 @@ spec:
       project: default
       sources:
         - repoURL: "https://github.com/yuyatinnefeld/microservice-kiosk.git"
-          path: istio/helm/monitor
+          path: istio/helm/istio-monitor
           helm:
             valueFiles:
               - values.yaml
