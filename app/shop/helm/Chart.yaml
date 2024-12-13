@@ -1,0 +1,5 @@
+apiVersion: v2
+name: shop-chart
+description: A Helm chart for deploying all shop components (frontend, inventory, item, account)
+version: 0.1.0
+appVersion: 0.1.0

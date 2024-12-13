@@ -29,3 +29,26 @@ for i in {1..20}; do kubectl exec "$SOURCE_POD" -c sleep -- curl -sSI $TARGET_UR
 
 while true; do kubectl exec "$SOURCE_POD" -c sleep -- curl $TARGET_URL 2>/dev/null | grep -E "APP: .* "; done
 ```
+
+## Test Shop Application
+```bash
+# Inventory Service
+cd app/shop/inventory
+export IMAGE_NAME="yuyatinnefeld/shop-inventory"
+docker build -t ${IMAGE_NAME} .
+docker run -it -p 9991:9991 --net=host ${IMAGE_NAME}
+
+curl http://localhost:9991
+curl http://localhost:9991/items/1
+curl http://localhost:9991/items/2
+
+docker image tag ${IMAGE_NAME} ${IMAGE_NAME}:1.0.0
+docker image push ${IMAGE_NAME}:1.0.0
+
+# frontend Service
+cd app/shop/frontend
+export IMAGE_NAME="yuyatinnefeld/shop-frontend"
+docker build -t ${IMAGE_NAME} .
+docker run -it -p 9990:9990  --net=host ${IMAGE_NAME}
+curl http://localhost:9990/fetch-item?index=1
+```

@@ -1,0 +1,12 @@
+# GLOBAL PARAMETER
+global:
+  namespace: shop
+  replicaCount: 1
+  clusterName: my-cluster
+
+shop:
+  frontend:
+    app: frontend
+    port: 9990
+    image: yuyatinnefeld/microservice-kiosk-frontend
+    imageTag: 0.1.0

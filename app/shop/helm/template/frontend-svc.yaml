@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+  namespace: {{ .Values.global.namespace }}
+spec:
+  selector:
+    app: {{ .Values.shop.frontend.app }}
+  ports:
+    - port: {{ .Values.shop.frontend.port }}
+      targetPort: {{ .Values.shop.frontend.port }}
+      name: http-frontend
+  type: LoadBalancer

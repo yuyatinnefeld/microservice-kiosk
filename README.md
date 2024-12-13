@@ -6,3 +6,4 @@ Welcome to the Microservice Kiosk project! This repository is a hands-on explora
 - [ArgoCD Deployment](argocd/README.md)
 - [Application](app/README.md)
 - [External IP Setup](metallb/README.md)
+- [Cloud Native Testing](testkube/README.md)
