@@ -10,7 +10,7 @@ spec:
           - cluster: "my-cluster"
   template:
     metadata:
-      name: "testkube"
+      name: "testkube-init"
     spec:
       project: default
       source:

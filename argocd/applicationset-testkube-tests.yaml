@@ -10,7 +10,7 @@ spec:
           - cluster: "my-cluster"
   template:
     metadata:
-      name: "testkube"
+      name: "testkube-tests"
     spec:
       project: default
       sources:
@@ -21,7 +21,7 @@ spec:
               - values.yaml
       destination:
         server: 'https://kubernetes.default.svc'
-        namespace: testkube
+        namespace: istio-testapp
       syncPolicy:
         automated:
           prune: true
