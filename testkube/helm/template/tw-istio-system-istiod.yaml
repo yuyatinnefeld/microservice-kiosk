@@ -1,0 +1,21 @@
+kind: TestWorkflow
+apiVersion: testworkflows.testkube.io/v1
+metadata:
+  name: tw-smoketest-istio-system-istiod
+  namespace: {{ .Values.global.namespace }}
+  labels:
+    team: service-mesh
+    component: isito-system
+    test: smoke-tests
+    version: 0.0.1
+spec:
+  container:
+    env:
+      - name: NS
+        value: "istio-system"
+      - name: LABEL_FILTER
+        value: "app=istiod"
+  steps:
+    - name: check-pod-state-istiod
+      use:
+        - name: twt-pod-state-templ

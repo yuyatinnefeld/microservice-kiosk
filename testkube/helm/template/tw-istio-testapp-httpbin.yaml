@@ -1,0 +1,26 @@
+kind: TestWorkflow
+apiVersion: testworkflows.testkube.io/v1
+metadata:
+  name: tw-integrationtest-istio-testapp-httpbin
+  namespace: {{ .Values.global.namespace }}
+  labels:
+    team: service-mesh
+    component: istio-testapp
+    test: integrationtests
+    version: 0.0.1
+spec:
+  container:
+    env:
+      - name: NS
+        value: "istio-testapp"
+      - name: LABEL_FILTER
+        value: "app=httpbin"
+      - name: URL
+        value: httpbin.istio-testapp.svc.cluster.local:7775/status/200
+  steps:
+    - name: check-status-code-httpbin
+      use:
+        - name: twt-http-status-code-templ
+    - name: check-sidecar-injection
+      use:
+        - name: twt-sidecar-injection-templ

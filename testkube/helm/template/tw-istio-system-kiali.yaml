@@ -1,0 +1,26 @@
+kind: TestWorkflow
+apiVersion: testworkflows.testkube.io/v1
+metadata:
+  name: tw-smoketest-istio-system-kiali
+  namespace: {{ .Values.global.namespace }}
+  labels:
+    team: service-mesh
+    component: istio-system
+    test: smoke-tests
+    version: 0.0.1
+spec:
+  container:
+    env:
+      - name: URL
+        value: kiali.istio-system.svc.cluster.local:20001
+      - name: NS
+        value: "istio-system"
+      - name: LABEL_FILTER
+        value: "app.kubernetes.io/name=kiali"
+  steps:
+    - name: check-pod-state-kiali
+      use:
+        - name: twt-pod-state-templ
+    - name: check-status-code-kiali
+      use:
+        - name: twt-http-status-code-templ

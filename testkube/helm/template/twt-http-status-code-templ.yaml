@@ -1,0 +1,25 @@
+apiVersion: testworkflows.testkube.io/v1
+kind: TestWorkflowTemplate
+metadata:
+  name: twt-http-status-code-templ
+  namespace: testkube
+  labels:
+    team: service-mesh
+    version: 0.0.1
+spec:
+  container:
+      image: curlimages/curl:8.7.1
+  steps:
+    - name: check-http-status-code
+      shell: |
+        echo "###################### TEST RESULT ######################"
+        echo "URL: $URL"
+        HTTP_CODE=$(curl -o /dev/null -s -w "%{http_code}\n" $URL)
+        echo "HTTP_CODE: $HTTP_CODE"
+
+        # Check if the HTTP status code is in the 4xx or 5xx range
+        if [[ "$HTTP_CODE" =~ ^4[0-9]{2}$ || "$HTTP_CODE" =~ ^5[0-9]{2}$ ]]; then
+            echo "Error: HTTP status code indicates a client or server error."
+            exit 1
+        fi
+        echo "#########################################################"

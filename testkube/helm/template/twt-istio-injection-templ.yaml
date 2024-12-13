@@ -1,0 +1,42 @@
+apiVersion: testworkflows.testkube.io/v1
+kind: TestWorkflowTemplate
+metadata:
+  name: twt-sidecar-injection-templ
+  namespace: testkube
+  labels:
+    team: service-mesh
+    version: 0.0.1
+spec:
+  container:
+      image: "bitnami/kubectl"
+  steps:
+    - name: check-istio-injection
+      shell: |
+        echo "###################### TEST RESULT ######################"
+
+        # Get the name of the istiod pod
+        TARGET_POD=$(kubectl get pods -l $LABEL_FILTER -n $NS -o jsonpath='{.items[0].metadata.name}')
+        echo "POD_ID: $TARGET_POD"
+
+        # Check POD 2/2
+        CONTAINER_LIST=$(kubectl get pods $TARGET_POD -n $NS -o jsonpath='{.spec.containers[*].name}')
+        echo "CONTAINER_LIST: $CONTAINER_LIST"
+
+        # Check if "istio-proxy" is in the list of container names
+        if echo "$CONTAINER_LIST" | grep -qw "istio-proxy"; then
+          echo "istio-proxy container is present in the pod $TARGET_POD."
+        else
+          echo "istio-proxy container is NOT present in the pod $TARGET_POD."
+        fi
+
+        # Check if the sidecar is available
+        # NOTE! Openshift "annotations.sidecar\.istio\.io/status" >> sidecar.istio.io/inject": "true",
+        SIDECAR_STATUS=$(kubectl get pods -l $LABEL_FILTER -n $NS -o jsonpath='{.items[0].metadata.annotations.sidecar\.istio\.io/status}')
+
+        if [ -n "$SIDECAR_STATUS" ]; then
+            echo "Istio sidecar is injected. "
+        else
+            echo "Error: Istio sidecar is not injected!"
+            exit 1
+        fi
+        echo "#########################################################"

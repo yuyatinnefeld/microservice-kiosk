@@ -36,3 +36,9 @@ metadata:
   name: shop
   labels:
     istio-injection: enabled
+---
+# TESTKUBE
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: testkube

@@ -21,4 +21,7 @@ kubectl apply -f argocd/applicationset-istio-testapp.yaml
 
 # deploy service mesh monitor components
 kubectl apply -f argocd/applicationset-istio-monitor.yaml
+
+# deploy testkube components
+kubectl apply -f argocd/applicationset-testkube.yaml
 ```

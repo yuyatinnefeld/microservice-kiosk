@@ -1,0 +1,32 @@
+apiVersion: testworkflows.testkube.io/v1
+kind: TestWorkflowTemplate
+metadata:
+  name: twt-pod-state-templ
+  namespace: testkube
+  labels:
+    team: service-mesh
+    version: 0.0.1
+spec:
+  container:
+      image: "bitnami/kubectl"
+  steps:
+    - name: check-pod-state
+      shell: |
+        echo "###################### TEST RESULT ######################"
+
+        # Get the name of the istiod pod
+        TARGET_POD=$(kubectl get pods -l $LABEL_FILTER -n $NS -o jsonpath='{.items[0].metadata.name}')
+        echo "POD_ID: $TARGET_POD"
+
+        # Get the state of the istiod pod
+        POD_STATE=$(kubectl get pods -l $LABEL_FILTER -n $NS -o jsonpath='{.items[0].status.phase}')
+        echo "POD_STATE: $POD_STATE"
+
+        # Check if the state is not "Running"
+        if [ "$POD_STATE" != "Running" ]; then
+            echo "Error: Pod is not in the Running state. Current state: $POD_STATE"
+            exit 1
+        fi
+
+        echo "Pod is successfully running"
+        echo "#########################################################"

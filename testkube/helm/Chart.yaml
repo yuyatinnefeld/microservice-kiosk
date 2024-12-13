@@ -1,0 +1,5 @@
+apiVersion: v2
+name: testkube-smoketests-chart
+description: A Helm chart for deploying smoke tests
+version: 0.1.0
+appVersion: 0.1.0
