@@ -23,5 +23,7 @@ kubectl apply -f argocd/applicationset-istio-testapp.yaml
 kubectl apply -f argocd/applicationset-istio-monitor.yaml
 
 # deploy testkube components
-kubectl apply -f argocd/applicationset-testkube.yaml
+kubectl apply -f argocd/applicationset-testkube-init.yaml
+kubectl apply -f argocd/applicationset-testkube-tests.yaml
+
 ```

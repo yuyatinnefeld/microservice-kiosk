@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: argocd-applicationset-testkube-jobs
+  name: argocd-applicationset-testkube-tests
   namespace: argocd
 spec:
   generators:
@@ -13,15 +13,12 @@ spec:
       name: "testkube"
     spec:
       project: default
-      source:
-        repoURL: https://kubeshop.github.io/helm-charts
-        chart: testkube
-        targetRevision: 2.1.55
-        helm:
-          releaseName: testkube
-          parameters:
-          - name: createNamespace
-            value: "true"
+      sources:
+        - repoURL: "https://github.com/yuyatinnefeld/microservice-kiosk.git"
+          path: testkube/helm
+          helm:
+            valueFiles:
+              - values.yaml
       destination:
         server: 'https://kubernetes.default.svc'
         namespace: testkube
