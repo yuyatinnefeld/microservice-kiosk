@@ -1,20 +1,27 @@
-apiVersion: batch/v1
-kind: Job
+apiVersion: tests.testkube.io/v1
+kind: TestTrigger
 metadata:
-  generateName: testkube-testworkflows-execution
-  namespace: istio-testapp
-  annotations:
-    argocd.argoproj.io/hook: PostSync
-    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+  name: testtrigger-example
+  namespace: default
 spec:
-  template:
-    spec:
-      containers:
-      - name: execute-testworkflows
-        image: kubeshop/testkube-cli:2.1.19
-        command:
-        - /bin/sh
-        - -c
-        - |
-          testkube get tw
-      restartPolicy: Never
+  resource: deployment
+  resourceSelector:
+    labelSelector:
+      matchLabels:
+        testkube.io/tier: backend
+  event: modified
+  conditionSpec:
+    timeout: 100
+    delay: 2
+    conditions:
+      - type: Progressing
+        status: "True"
+        reason: "NewReplicaSetAvailable"
+        ttl: 60
+      - type: Available
+        status: "True"
+  action: run
+  execution: workflow
+  concurrencyPolicy: allow
+  testSelector:
+    name: tw-smoketest-istio-system-istiod
