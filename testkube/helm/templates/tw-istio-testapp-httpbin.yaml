@@ -9,6 +9,9 @@ metadata:
     test: integrationtests
     version: 0.0.1
 spec:
+  events:
+  - cronjob:
+      cron: 0 3 * * *
   container:
     env:
       - name: NS
