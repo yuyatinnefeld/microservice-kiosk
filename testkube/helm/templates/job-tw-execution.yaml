@@ -14,5 +14,7 @@ spec:
         image: kubeshop/testkube-cli:2.1.19
         command:
         - /bin/sh
-          testkube run tw tw-smoketest-istio-system-kiali
+        - -c
+        - |
+          testkube get tw
       restartPolicy: Never
