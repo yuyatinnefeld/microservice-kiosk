@@ -1,8 +1,28 @@
-# GITOPS
+# CD
 apiVersion: v1
 kind: Namespace
 metadata:
   name: argocd
+---
+# SHOP APPLICATION
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: shop
+  labels:
+    istio-injection: enabled
+---
+# TESTKUBE
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: testkube
+---
+# VAULT
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: vault
 ---
 # SERVICE MESH
 apiVersion: v1
@@ -28,17 +48,3 @@ metadata:
   name: istio-testapp
   labels:
     istio-injection: enabled
----
-# SHOP APPLICATION
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: shop
-  labels:
-    istio-injection: enabled
----
-# TESTKUBE
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: testkube
