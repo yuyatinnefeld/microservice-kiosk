@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: argocd-applicationset-vault
+  namespace: argocd
+spec:
+  generators:
+    - list:
+        elements:
+          - cluster: "my-cluster"
+  template:
+    metadata:
+      name: "vault"
+    spec:
+      project: default
+      sources:
+        - repoURL: "https://github.com/hashicorp/vault-helm.git"
+          path: .
+          helm:
+            valueFiles:
+              - values.yaml
+      destination:
+        server: 'https://kubernetes.default.svc'
+        namespace: vault
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
