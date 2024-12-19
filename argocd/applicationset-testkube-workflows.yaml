@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: argocd-applicationset-testkube-tests
+  name: argocd-applicationset-testkube-workflows
   namespace: argocd
 spec:
   generators:
@@ -10,7 +10,7 @@ spec:
           - cluster: "my-cluster"
   template:
     metadata:
-      name: "testkube-tests"
+      name: "testkube-workflows"
     spec:
       project: default
       sources:
