@@ -7,3 +7,18 @@ Welcome to the Microservice Kiosk project! This repository is a hands-on explora
 - [Application](app/README.md)
 - [External IP Setup](metallb/README.md)
 - [Cloud Native Testing](testkube/README.md)
+
+## System Architecture
+![Screenshot](/images/cnk-architecture.png)
+
+### Namespace
+- istio-system
+- istio-testapp
+- istio-monitor
+- shop
+- testkube
+- argocd
+
+### CI/CD
+- CI: Github Action
+- CD: argoCD
