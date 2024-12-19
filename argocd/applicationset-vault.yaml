@@ -12,13 +12,18 @@ spec:
     metadata:
       name: "vault"
     spec:
-      project: default
       sources:
         - repoURL: "https://github.com/hashicorp/vault-helm.git"
           path: .
           helm:
             valueFiles:
               - values.yaml
+        - repoURL: "https://github.com/hashicorp/vault-secrets-operator.git"
+          path: chart
+          helm:
+            valueFiles:
+              - values.yaml
+      project: default
       destination:
         server: 'https://kubernetes.default.svc'
         namespace: vault
