@@ -26,6 +26,8 @@ kubectl apply -f argocd/applicationset-istio-monitor.yaml
 kubectl apply -f argocd/applicationset-testkube-init.yaml
 kubectl apply -f argocd/applicationset-testkube-tests.yaml
 
-# vault components
-kubectl apply -f argocd/applicationset-vault.yaml
+# deploy secrets components
+kubectl apply -f argocd/applicationset-vault-server.yaml
+kubectl apply -f argocd/applicationset-vault-eso.yaml
+
 ```
