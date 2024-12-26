@@ -29,4 +29,7 @@ kubectl apply -f argocd/applicationset-testkube-tests.yaml
 # deploy secrets components
 kubectl apply -f argocd/applicationset-vault-server.yaml
 kubectl apply -f argocd/applicationset-vault-eso.yaml
+
+# deploy shop apps
+kubectl apply -f argocd/applicationset-cnk-shop.yaml
 ```

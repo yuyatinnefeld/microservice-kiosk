@@ -14,7 +14,7 @@ spec:
     spec:
       sources:
         - repoURL: "https://github.com/yuyatinnefeld/microservice-kiosk.git"
-          path: app/helm
+          path: app/shop/helm
           helm:
             valueFiles:
               - values.yaml
