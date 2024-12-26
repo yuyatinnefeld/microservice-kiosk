@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.shop.backendInventory.name }}
+  namespace: {{ .Values.global.namespace }}
+  labels:
+    app:  {{ .Values.shop.backendInventory.app }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app:  {{ .Values.shop.backendInventory.app }}
+  template:
+    metadata:
+      labels:
+        app:  {{ .Values.shop.backendInventory.app }}
+    spec:
+      containers:
+        - name: {{ .Values.shop.backendInventory.app }}
+          image: {{ .Values.shop.backendInventory.image }}:{{ .Values.shop.backendInventory.imageTag }}
+          env:
+            - name: APP_NAME
+              value: {{ .Values.shop.backendInventory.description }}
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: {{ .Values.shop.backendInventory.port }}

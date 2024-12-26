@@ -14,14 +14,14 @@ spec:
     spec:
       sources:
         - repoURL: "https://github.com/yuyatinnefeld/microservice-kiosk.git"
-          path: vault/helm
+          path: app/helm
           helm:
             valueFiles:
               - values.yaml
       project: default
       destination:
         server: 'https://kubernetes.default.svc'
-        namespace: vault-secrets-operator-system
+        namespace: shop
       syncPolicy:
         automated:
           prune: true

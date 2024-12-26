@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: frontend
+  name: {{ .Values.shop.frontend.name }}
   namespace: {{ .Values.global.namespace }}
   labels:
     app:  {{ .Values.shop.frontend.app }}
@@ -20,7 +20,7 @@ spec:
           image: {{ .Values.shop.frontend.image }}:{{ .Values.shop.frontend.imageTag }}
           env:
             - name: APP_NAME
-              value: "CKN FRONTEND"
+              value: {{ .Values.shop.frontend.description }}
           readinessProbe:
             httpGet:
               path: /
