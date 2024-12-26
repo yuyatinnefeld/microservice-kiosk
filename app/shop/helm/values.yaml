@@ -8,5 +8,11 @@ shop:
   frontend:
     app: frontend
     port: 9990
-    image: yuyatinnefeld/microservice-kiosk-frontend
-    imageTag: 0.1.0
+    image: yuyatinnefeld/cnk-frontend
+    imageTag: 0.1.1
+
+  backendInventory:
+    app: inventory
+    port: 9991
+    image: yuyatinnefeld/cnk-backend-inventory
+    imageTag: 0.1.1

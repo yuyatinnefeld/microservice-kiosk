@@ -45,7 +45,6 @@ export VAULT_TECH_USER_TOKEN_NAME=vault-techuser-token
 kubectl create secret -n $TARGET_NS generic $VAULT_TECH_USER_TOKEN_NAME --from-literal=token=$VAULT_TECH_USER_TOKEN
 ```
 
-
 ## Setup SecretStore, PullSecret, PushSecret
 
 ```bash

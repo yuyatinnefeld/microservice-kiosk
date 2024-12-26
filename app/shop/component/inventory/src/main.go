@@ -103,11 +103,18 @@ func writeJSONResponse(w http.ResponseWriter, statusCode int, data interface{}) 
 	}
 }
 
+// Handles health check requests.
+func healthHandler(w http.ResponseWriter, r *http.Request) {
+	response := map[string]string{"status": "healthy"}
+	writeJSONResponse(w, http.StatusOK, response)
+}
+
 func main() {
 	const port = 9991
 	http.HandleFunc("/", fetchAPIResourceHandler)
 	http.HandleFunc("/post", createAPIResourceHandler)
 	http.HandleFunc("/items/", getItemHandler) // Handle all /items/<id> requests dynamically
+	http.HandleFunc("/health", healthHandler)
 
 	log.Printf("Server is running on port %d...", port)
 	if err := http.ListenAndServe(fmt.Sprintf(":%d", port), nil); err != nil {

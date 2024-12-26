@@ -47,6 +47,12 @@ func fetchAPIResourceHandler(w http.ResponseWriter, r *http.Request) {
 	writeJSONResponse(w, http.StatusOK, response)
 }
 
+// Handles health check requests.
+func healthHandler(w http.ResponseWriter, r *http.Request) {
+	response := map[string]string{"status": "healthy"}
+	writeJSONResponse(w, http.StatusOK, response)
+}
+
 // Handles fetching item details from the backend with detailed logging.
 func fetchItemHandler(w http.ResponseWriter, r *http.Request) {
 	log.Println("Starting fetchItemHandler")
@@ -121,7 +127,8 @@ func writeJSONResponse(w http.ResponseWriter, statusCode int, data interface{}) 
 func main() {
 	const port = 9990
 	http.HandleFunc("/", fetchAPIResourceHandler)
-	http.HandleFunc("/fetch-item", fetchItemHandler) // New endpoint to fetch item details
+	http.HandleFunc("/fetch-item", fetchItemHandler)
+	http.HandleFunc("/health", healthHandler)
 
 	log.Printf("Server is running on port %d...", port)
 	if err := http.ListenAndServe(fmt.Sprintf(":%d", port), nil); err != nil {
