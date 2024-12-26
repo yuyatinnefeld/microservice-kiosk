@@ -21,7 +21,17 @@ spec:
           env:
             - name: APP_NAME
               value: {{ .Values.shop.frontend.description }}
+            - name: VERSION
+              value: {{ .Values.shop.backendInventory.imageTag }}
+            - name: ENV
+              value: {{ .Values.global.env }}
+            - name: MY_POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
           readinessProbe:
             httpGet:
               path: /
               port: {{ .Values.shop.frontend.port }}
+            initialDelaySeconds: 5
+            periodSeconds: 10

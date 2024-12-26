@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
   name: argocd-applicationset-cnk-shop
-  namespace: shop
+  namespace: argocd
 spec:
   generators:
     - list:
