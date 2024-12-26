@@ -14,8 +14,10 @@ on:
         required: true
 env:
   DOCKER_HUB_NAMESPACE: yuyatinnefeld
-  FRONTEND_IMAGE_NAME: microservice-kiosk-frontend
-  INVENTORY_IMAGE_NAME: microservice-kiosk-backend-inventory
+  FRONTEND_IMAGE_NAME: cnk-frontend
+  INVENTORY_IMAGE_NAME: cnk-backend-inventory
+  FRONTEND_CONTEXT: app/shop/component/frontend
+  BACKEND_CONTEXT: app/shop/component/inventory
 
 jobs:
   push_to_registry:
@@ -40,13 +42,13 @@ jobs:
       - name: push-frontend-image
         uses: docker/build-push-action@v2
         with:
-          context: app/frontend/
+          context: ${{ env.FRONTEND_CONTEXT }}
           push: true
           tags: ${{ env.DOCKER_HUB_NAMESPACE }}/${{ env.FRONTEND_IMAGE_NAME }}:${{ github.event.inputs.frontend_version }}
 
       - name: push-backend-inventory-image
         uses: docker/build-push-action@v2
         with:
-          context: app/inventory/
+          context: ${{ env.BACKEND_CONTEXT }}
           push: true
           tags: ${{ env.DOCKER_HUB_NAMESPACE }}/${{ env.INVENTORY_IMAGE_NAME }}:${{ github.event.inputs.backend_version }}
