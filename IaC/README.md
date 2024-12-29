@@ -14,13 +14,10 @@ export TF_LOG=DEBUG
 terraform init
 terraform plan -var-file=dev.tfvars
 terraform apply -var-file=dev.tfvars
-
-# Switch to the Service Mesh Testing Namespace:
-kubectl config set-context --current --namespace=istio-testapp
 ```
 
 ## Setup Default Cluster and Namespace
 ```bash
 kubectl config use-context kind-my-cluster
-kubectl config set-context --current --namespace=istio-testapp
+kubectl config set-context --current --namespace=shop
 ```

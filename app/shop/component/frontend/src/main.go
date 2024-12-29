@@ -82,12 +82,13 @@ func fetchItemHandler(w http.ResponseWriter, r *http.Request) {
 	var backendURL string
 	switch env {
 	case "K8S-DEV":
-		backendURL = fmt.Sprintf("http://backend-inventory:9991/items/%s", itemIndex)
+		backendURL = fmt.Sprintf("http://backend-inventory.testapp.com:9991/items/%s", itemIndex)
 	case "DOCKER-DEV":
 		backendURL = fmt.Sprintf("http://localhost:9991/items/%s", itemIndex)
 	default:
 		backendURL = fmt.Sprintf("http://127.0.0.1:9991/items/%s", itemIndex)
 	}
+
 	log.Printf("Determined backend URL based on ENV='%s': %s", env, backendURL)
 
 	// Send request to backend

@@ -47,8 +47,8 @@ curl http://localhost:9991
 curl http://localhost:9991/health
 curl http://localhost:9991/items/2
 
-docker image tag ${IMAGE_NAME} ${IMAGE_NAME}:1.0.0
-docker image push ${IMAGE_NAME}:1.0.0
+docker image tag ${IMAGE_NAME} ${IMAGE_NAME}:1.0.1
+docker image push ${IMAGE_NAME}:1.0.1
 
 # frontend Service
 cd app/shop/component/frontend
@@ -71,5 +71,7 @@ curl http://localhost:9990/fetch-item?index=1
 - ArgoCD
 ```bash
 kubectl port-forward svc/cnk-backend-inventory 9991:9991 -n shop
-kubectl port-forwart svc/cnk-frontend 9990:9990 -n shop
+kubectl port-forward svc/cnk-frontend 9990:9990 -n shop
 ```
+
+kubectl exec -it $POD -- nslookup cnk-backend-inventory

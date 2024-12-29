@@ -8,20 +8,22 @@ docker inspect my-cluster-control-plane | jq -r ".[0].NetworkSettings.Networks.k
 
 ### Install Metallab
 ```bash
+
 helm repo add metallb https://metallb.github.io/metallb
-helm install metallb metallb/metallb
+helm install metallb metallb/metallb -n shop
 kubectl get pod -w # wait until metallb-speaker and metallb-controller are installed
-kubectl apply -f metallb/metallb-config-istio-testapp.yaml
+kubectl apply -f metallb/metallb-config-shop.yaml
 ```
 
 ## Test External IP and Configure Local DNS
 ```bash
-kubectl get svc # External IP = 172.18.0.100
-curl 172.18.0.100:7777
+kubectl get svc # External IP = 172.18.0.150
+curl 172.18.0.150:9991
 
 vi /etc/hosts # add testapp.com
-#172.18.0.100 shop.testapp.com
-#172.18.0.200 shop-south.testapp.com
+#172.18.0.150 backend-inventory.testapp.com
+#172.18.0.151 frontend.testapp.com
 
-curl shop.testapp.com:7777
+curl backend-inventory.testapp.com:9991
+curl frontend.testapp.com:9990
 ```
