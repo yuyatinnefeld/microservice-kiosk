@@ -34,11 +34,11 @@ while true; do kubectl exec "$SLEEP_POD" -c sleep -- curl -sS $TARGET_URL; done;
 
 ```bash
 # Prometheus
-kubectl port-forward svc/prometheus -n istio-system 9090
+kubectl port-forward svc/prometheus -n istio-monitor 9090
 
 # Kiali
-kubectl port-forward svc/kiali -n istio-system 20001
+kubectl port-forward svc/kiali -n istio-monitor 20001
 
 # Grafana
-kubectl port-forward svc/grafana -n istio-system 3000
+kubectl port-forward svc/grafana -n istio-monitor 3000
 ```
