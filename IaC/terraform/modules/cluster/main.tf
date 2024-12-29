@@ -42,23 +42,11 @@ resource "kind_cluster" "my_cluster" {
 
 provider "kubernetes" {
   config_path    = "~/.kube/config"
-  config_context = "kind-my-cluster"
-}
-
-locals {
-  namespaces = {
-    "argocd"         = "argocd"
-    "istio-system"   = "istio-system,"
-    "istio-gateways" = "istio-gateways"
-    "istio-testapp"  = "istio-testapp"
-    "shop"           = "shop"
-    "testkube"       = "testkube"
-    "vault"          = "vault"
-  }
+  config_context = var.kind_cluster_name
 }
 
 resource "kubernetes_namespace" "namespace" {
-  for_each = local.namespaces
+  for_each = var.namespaces
 
   metadata {
     name = each.key

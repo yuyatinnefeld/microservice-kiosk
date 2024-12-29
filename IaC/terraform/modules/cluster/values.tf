@@ -1,4 +1,9 @@
 variable "cluster_name" {
+  description = "Name of the cluster"
+  type        = string
+}
+
+variable "kind_cluster_name" {
   description = "Name of the Kind cluster"
   type        = string
 }
@@ -35,3 +40,10 @@ variable "nodes" {
   }))
 }
 
+variable "namespaces" {
+  description = "Map of namespaces to be created with annotations"
+  type        = map(string)
+  default = {
+    "test"         = "test"
+  }
+}

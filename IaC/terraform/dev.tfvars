@@ -1,4 +1,5 @@
 cluster_name       = "my-cluster"
+kind_cluster_name  = "kind-my-cluster"
 node_image         = "kindest/node:v1.28.0"
 pod_subnet         = "10.250.0.0/16"
 service_subnet     = "10.100.0.0/12"

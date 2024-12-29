@@ -3,6 +3,11 @@ variable "cluster_name" {
   type        = string
 }
 
+variable "kind_cluster_name" {
+  description = "Name of the Kind cluster"
+  type        = string
+}
+
 variable "node_image" {
   description = "The Docker image for the nodes in the Kind cluster"
   type        = string
