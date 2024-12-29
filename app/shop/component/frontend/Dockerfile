@@ -1,5 +1,6 @@
 FROM golang:1.17.5 AS go_build
 ENV CGO_ENABLED=0
+ENV ENV=DOCKER-DEV
 WORKDIR /go-app
 COPY src/main.go /go-app
 RUN go mod init go-app

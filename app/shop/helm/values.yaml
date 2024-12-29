@@ -3,7 +3,8 @@ global:
   namespace: shop
   replicaCount: 1
   clusterName: my-cluster
-  env: DEV
+  env: K8S-DEV
+  productName: cnk
 
 shop:
   frontend: 
@@ -11,7 +12,7 @@ shop:
     app: frontend
     port: 9990
     image: yuyatinnefeld/cnk-frontend
-    imageTag: 0.1.2
+    imageTag: 1.0.0
     description: "CKN FRONTEND"
     serviceTypes: LoadBalancer
     http:
@@ -22,7 +23,7 @@ shop:
     app: inventory
     port: 9991
     image: yuyatinnefeld/cnk-backend-inventory
-    imageTag: 0.1.2
+    imageTag: 1.0.0
     description: "CKN BACKEND INVENTORY"
     serviceTypes: LoadBalancer
     http:

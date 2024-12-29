@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Values.shop.frontend.name }}
+  name: {{ .Values.global.productName }}-{{ .Values.shop.frontend.name }}
   namespace: {{ .Values.global.namespace }}
 spec:
   selector:

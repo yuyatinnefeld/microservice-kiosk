@@ -16,6 +16,8 @@ type Response struct {
 	Language string `json:"language"`
 	Version  string `json:"version"`
 	PodID    string `json:"podID"`
+	Env      string `json:"env"`
+
 }
 
 // Item represents the structure of an item from the inventory.
@@ -41,7 +43,8 @@ func fetchAPIResourceHandler(w http.ResponseWriter, r *http.Request) {
 		AppName:  "frontend",
 		Language: "golang",
 		Version:  getEnv("VERSION", "0.0.0"),
-		PodID:    getEnv("MY_POD_NAME", "podID_is_NOT_defined"),
+		PodID:    getEnv("MY_POD_NAME", "NOT-RUNNING"),
+		Env:      getEnv("ENV", "NOT-DEFINED"),
 	}
 
 	writeJSONResponse(w, http.StatusOK, response)
@@ -74,9 +77,18 @@ func fetchItemHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Construct backend URL
-	backendURL := fmt.Sprintf("http://127.0.0.1:9991/items/%s", itemIndex)
-	log.Printf("Constructed backend URL: %s", backendURL)
+	// Determine backend URL based on the environment
+	env := os.Getenv("ENV")
+	var backendURL string
+	switch env {
+	case "K8S-DEV":
+		backendURL = fmt.Sprintf("http://backend-inventory:9991/items/%s", itemIndex)
+	case "DOCKER-DEV":
+		backendURL = fmt.Sprintf("http://localhost:9991/items/%s", itemIndex)
+	default:
+		backendURL = fmt.Sprintf("http://127.0.0.1:9991/items/%s", itemIndex)
+	}
+	log.Printf("Determined backend URL based on ENV='%s': %s", env, backendURL)
 
 	// Send request to backend
 	log.Println("Sending request to backend")
@@ -113,6 +125,7 @@ func fetchItemHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	log.Println("Response successfully sent to client")
 }
+
 
 // Helper function to write a JSON response.
 func writeJSONResponse(w http.ResponseWriter, statusCode int, data interface{}) {

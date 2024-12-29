@@ -36,9 +36,11 @@ while true; do kubectl exec "$SOURCE_POD" -c sleep -- curl $TARGET_URL 2>/dev/nu
 ```bash
 # Inventory Service
 cd app/shop/component/inventory
-export IMAGE_NAME="yuyatinnefeld/shop-inventory"
+export IMAGE_NAME="yuyatinnefeld/cnk-backend-inventory"
 docker build -t ${IMAGE_NAME} .
-docker run -it -p 9991:9991 --net=host ${IMAGE_NAME}
+docker run -it -p 9991:9991 -e ENV=DOCKER-DEV --net=host ${IMAGE_NAME}
+
+docker image push $IMAGE_NAME
 
 # verify
 curl http://localhost:9991
@@ -50,10 +52,12 @@ docker image push ${IMAGE_NAME}:1.0.0
 
 # frontend Service
 cd app/shop/component/frontend
-export IMAGE_NAME="yuyatinnefeld/shop-frontend"
+export IMAGE_NAME="yuyatinnefeld/cnk-frontend"
 docker build -t ${IMAGE_NAME} .
-docker run -it -p 9990:9990  --net=host ${IMAGE_NAME}
+docker run -it -p 9990:9990 -e ENV=DOCKER-DEV --net=host ${IMAGE_NAME}
 
+docker image tag ${IMAGE_NAME} ${IMAGE_NAME}:1.0.0
+docker image push ${IMAGE_NAME}:1.0.0
 # verify
 curl http://localhost:9990
 curl http://localhost:9990/health
@@ -65,3 +69,7 @@ curl http://localhost:9990/fetch-item?index=1
 
 ### Deployment
 - ArgoCD
+```bash
+kubectl port-forward svc/cnk-backend-inventory 9991:9991 -n shop
+kubectl port-forwart svc/cnk-frontend 9990:9990 -n shop
+```

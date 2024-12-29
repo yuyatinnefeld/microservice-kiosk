@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.shop.frontend.name }}
+  name: {{ .Values.global.productName }}-{{ .Values.shop.frontend.name }}
   namespace: {{ .Values.global.namespace }}
   labels:
     app:  {{ .Values.shop.frontend.app }}

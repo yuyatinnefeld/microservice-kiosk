@@ -16,6 +16,7 @@ type Response struct {
 	Language string `json:"language"`
 	Version  string `json:"version"`
 	PodID    string `json:"podID"`
+	Env      string `json:"env"`
 }
 
 // Item represents the structure of an item in the inventory.
@@ -48,6 +49,7 @@ func fetchAPIResourceHandler(w http.ResponseWriter, r *http.Request) {
 		Language: "golang",
 		Version:  getEnv("VERSION", "0.0.0"),
 		PodID:    getEnv("MY_POD_NAME", "podID_is_NOT_defined"),
+		Env:      getEnv("ENV", "NOT-DEFINED"),
 	}
 
 	writeJSONResponse(w, http.StatusOK, response)
