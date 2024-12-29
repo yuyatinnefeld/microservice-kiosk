@@ -1,8 +1,8 @@
 apiVersion: metallb.io/v1beta1
 kind: IPAddressPool
 metadata:
-  name: testapp-pool
-  namespace: shop
+  name: cnk-shop-pool
+  namespace: {{ .Values.global.namespace }}
 spec:
   addresses:
   - 172.18.0.150-172.18.0.200
@@ -11,7 +11,7 @@ apiVersion: metallb.io/v1beta1
 kind: L2Advertisement
 metadata:
   name: example
-  namespace: shop
+  namespace: {{ .Values.global.namespace }}
 spec:
   ipAddressPools:
-  - testapp-pool
+  - cnk-shop-pool

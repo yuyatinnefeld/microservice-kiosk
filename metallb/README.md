@@ -6,12 +6,11 @@ kubectl get nodes -o json | jq .items[].status.addresses[].address # "172.18.0.2
 docker inspect my-cluster-control-plane | jq -r ".[0].NetworkSettings.Networks.kind.IPAddress"
 ```
 
-### Install Metallab
-```bash
+### Deploy Metallab speaker and controller
+- ArgoCD
 
-helm repo add metallb https://metallb.github.io/metallb
-helm install metallb metallb/metallb -n shop
-kubectl get pod -w # wait until metallb-speaker and metallb-controller are installed
+```bash
+kubectl get pod -n shop
 kubectl apply -f metallb/metallb-config-shop.yaml
 ```
 

@@ -1,0 +1,36 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: argocd-applicationset-cnk-metallb
+  namespace: argocd
+spec:
+  generators:
+    - list:
+        elements:
+          - cluster: "my-cluster"
+  template:
+    metadata:
+      name: "metallb"
+    spec:
+      sources:
+        - repoURL: https://metallb.github.io/metallb
+          chart: metallb
+          targetRevision: 0.14.8
+          helm:
+            releaseName: metallb
+            parameters:
+            - name: createNamespace
+              value: "true"
+        - repoURL: "https://github.com/yuyatinnefeld/microservice-kiosk.git"
+          path: metallb
+          helm:
+            valueFiles:
+              - values.yaml
+      project: default
+      destination:
+        server: 'https://kubernetes.default.svc'
+        namespace: shop
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true

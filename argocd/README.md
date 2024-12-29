@@ -28,4 +28,6 @@ kubectl apply -f argocd/applicationset-vault-eso.yaml
 
 # deploy shop apps
 kubectl apply -f argocd/applicationset-cnk-shop.yaml
+kubectl apply -f argocd/applicationset-metallb.yaml
+
 ```

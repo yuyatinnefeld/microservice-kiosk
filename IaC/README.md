@@ -4,7 +4,7 @@
 ```bash
 cd IaC/kind
 kind create cluster --name=my-cluster --config=kind-config-my-cluster.yaml
-kubectl apply -f cluster/namespace.yaml
+kubectl apply -f namespace.yaml
 ```
 
 ## Setup Kind-Cluster via Terraform

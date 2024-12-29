@@ -56,8 +56,8 @@ export IMAGE_NAME="yuyatinnefeld/cnk-frontend"
 docker build -t ${IMAGE_NAME} .
 docker run -it -p 9990:9990 -e ENV=DOCKER-DEV --net=host ${IMAGE_NAME}
 
-docker image tag ${IMAGE_NAME} ${IMAGE_NAME}:1.0.0
-docker image push ${IMAGE_NAME}:1.0.0
+docker image tag ${IMAGE_NAME} ${IMAGE_NAME}:1.0.1
+docker image push ${IMAGE_NAME}:1.0.1
 # verify
 curl http://localhost:9990
 curl http://localhost:9990/health
@@ -68,10 +68,10 @@ curl http://localhost:9990/fetch-item?index=1
 - Github Action
 
 ### Deployment
-- ArgoCD
-```bash
-kubectl port-forward svc/cnk-backend-inventory 9991:9991 -n shop
-kubectl port-forward svc/cnk-frontend 9990:9990 -n shop
-```
+- ArgoCD (incl. MetalLB)
 
-kubectl exec -it $POD -- nslookup cnk-backend-inventory
+```bash
+curl frontend.testapp.com:9990
+curl frontend.testapp.com:9990/fetch-item?index=1
+curl backend-inventory.testapp.com:9991/items/2
+```
