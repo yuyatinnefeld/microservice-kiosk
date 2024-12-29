@@ -15,11 +15,7 @@ kubectl port-forward svc/argocd-server -n argocd 8080:443
 # deploy service mesh components
 kubectl apply -f argocd/applicationset-istio-system.yaml
 kubectl apply -f argocd/applicationset-istio-gateways.yaml
-
-# deploy service mesh test components
 kubectl apply -f argocd/applicationset-istio-testapp.yaml
-
-# deploy service mesh monitor components
 kubectl apply -f argocd/applicationset-istio-monitor.yaml
 
 # deploy testkube components

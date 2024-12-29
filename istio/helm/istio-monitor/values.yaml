@@ -1,6 +1,6 @@
 # GLOBAL PARAMETER
 global:
-  namespace: istio-system #TODO: change later -> istio-monitor
+  namespace: istio-monitor #TODO: change later -> istio-monitor
 
 prometheus:
   version: "v2.55.1"
