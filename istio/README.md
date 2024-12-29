@@ -5,6 +5,14 @@
 # Verify
 istioctl verify-install
 
+# activate namespace sidecar injection
+kubectl label namespace shop istio-injection=enabled
+kubectl label namespace istio-testapp istio-injection=enabled
+
+# check if namespaces are injected
+kubectl get ns shop --show-labels
+kubectl get namespace -L istio-injection
+
 ## Verify Sidecar Injection
 TARGET_POD="$(kubectl get pod -l app=httpbin -n istio-testapp -o jsonpath='{.items[0].metadata.name}')"
 kubectl logs $TARGET_POD -c istio-proxy
