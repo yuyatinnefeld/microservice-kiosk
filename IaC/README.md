@@ -3,7 +3,8 @@
 ## Setup Kind-Cluster with Kind Config Manifest
 ```bash
 cd IaC/kind
-kind create cluster --name=my-cluster --config=kind-config-my-cluster.yaml 
+kind create cluster --name=my-cluster --config=kind-config-my-cluster.yaml
+kubectl apply -f cluster/namespace.yaml
 ```
 
 ## Setup Kind-Cluster via Terraform
