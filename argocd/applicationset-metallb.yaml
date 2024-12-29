@@ -22,7 +22,7 @@ spec:
             - name: createNamespace
               value: "true"
         - repoURL: "https://github.com/yuyatinnefeld/microservice-kiosk.git"
-          path: metallb
+          path: metallb/helm
           helm:
             valueFiles:
               - values.yaml
