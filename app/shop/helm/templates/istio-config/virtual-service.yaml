@@ -1,0 +1,27 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: cnk-virtualservice
+  namespace: {{ .Values.global.namespace }}
+spec:
+  hosts:
+  - {{ .Values.istio.gateway.hostname }}
+  gateways:
+  - {{ .Values.istio.gateway.name }}
+  http:
+  - match:
+    - uri:
+        prefix: /frontend
+    route:
+    - destination:
+        port:
+          number: {{ .Values.shop.frontend.port }}
+        host: {{ .Values.global.productName }}-{{ .Values.shop.frontend.name }}
+  - match:
+    - uri:
+        prefix: /backend
+    route:
+    - destination:
+        port:
+          number: {{ .Values.shop.backendInventory.port }}
+        host: {{ .Values.global.productName }}-{{ .Values.shop.backendInventory.name }}

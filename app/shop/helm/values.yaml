@@ -28,3 +28,9 @@ shop:
     serviceTypes: LoadBalancer
     http:
       name: http-inventory
+
+istio:
+  gateway:
+    name: cnk-gateway
+    port: 80
+  hostname: "gateway.cnk.com"

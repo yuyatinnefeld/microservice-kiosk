@@ -40,9 +40,23 @@ while true; do kubectl exec "$SLEEP_POD" -c sleep -- curl -sS $TARGET_URL; done;
 
 ## Check Ingress GW
 ```bash
-kubectl get gw -A
-kubectl get ingress -A
-curl testapp.cnk.com:7777/hw-all
+export INGRESS_NS=istio-gateways
+export INGRESS_NAME=istio-ingressgateway
+kubectl get svc "$INGRESS_NAME" -n "$INGRESS_NS"
+
+NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP    PORT(S)                                      AGE
+istio-ingressgateway   LoadBalancer   10.103.68.167   172.18.0.152   15021:32691/TCP,80:32220/TCP,443:31012/TCP   5h44m
+
+export INGRESS_HOST=$(kubectl -n "$INGRESS_NS" get service "$INGRESS_NAME" -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+export INGRESS_PORT=$(kubectl -n "$INGRESS_NS" get service "$INGRESS_NAME" -o jsonpath='{.spec.ports[?(@.name=="http2")].port}')
+
+curl -s -I -HHost:gateway.cnk.com "http://$INGRESS_HOST:$INGRESS_PORT/backend"
+
+# add DNS for gateway
+vi /etc/hosts
+# 172.18.0.152 gateway.cnk.com
+
+curl gateway.cnk.com:80/backend
 ```
 
 ## Check Monitoring Tools

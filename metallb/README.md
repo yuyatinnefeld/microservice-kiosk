@@ -22,9 +22,10 @@ curl 172.18.0.150:9991
 
 # Setup DNS
 vi /etc/hosts 
-#172.18.0.150 cnk.com
-#172.18.0.151 backend.cnk.com
-#172.18.0.153 testapp.cnk.com
+# 172.18.0.150 cnk.com
+# 172.18.0.151 backend.cnk.com
+# 172.18.0.152 gateway.cnk.com
+# 172.18.0.153 testapp.cnk.com
 
 curl cnk.com:9990
 curl backend.cnk.com:9991
