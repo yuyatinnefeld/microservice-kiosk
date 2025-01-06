@@ -13,6 +13,9 @@ kubectl label namespace istio-testapp istio-injection=enabled
 kubectl get ns shop --show-labels
 kubectl get namespace -L istio-injection
 
+# testapp as default ns
+kubectl config set-context --current --namespace=shop
+
 ## Verify Sidecar Injection
 TARGET_POD="$(kubectl get pod -l app=httpbin -n istio-testapp -o jsonpath='{.items[0].metadata.name}')"
 kubectl logs $TARGET_POD -c istio-proxy

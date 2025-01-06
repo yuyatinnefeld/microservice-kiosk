@@ -83,6 +83,8 @@ data:
       version_label: v2.1.0
       view_only_mode: false
     external_services:
+      prometheus:
+        url: "http://prometheus.istio-monitor:9090"
       custom_dashboards:
         enabled: true
       istio:

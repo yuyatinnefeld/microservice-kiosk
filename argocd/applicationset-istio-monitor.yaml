@@ -21,7 +21,7 @@ spec:
               - values.yaml
       destination:
         server: 'https://kubernetes.default.svc'
-        namespace: istio-system # TODO: update later > istio-monitor
+        namespace: istio-monitor
       syncPolicy:
         automated:
           prune: true

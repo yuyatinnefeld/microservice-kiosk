@@ -26,7 +26,7 @@ spec:
               - values.yaml
       destination:
         server: 'https://kubernetes.default.svc'
-        namespace: istio-system # TODO: update later > istio-gateways
+        namespace: istio-gateways
       syncPolicy:
         automated:
           prune: true
