@@ -15,12 +15,12 @@ spec:
       project: default
       sources:
         - repoURL: "https://github.com/yuyatinnefeld/microservice-kiosk.git"
-          path: istio/helm/gateways/istio-ingress
+          path: istio/helm/istio-gateways/istio-ingress
           helm:
             valueFiles:
               - values.yaml
         - repoURL: "https://github.com/yuyatinnefeld/microservice-kiosk.git"
-          path: istio/helm/gateways/istio-egress
+          path: istio/helm/istio-gateways/istio-egress
           helm:
             valueFiles:
               - values.yaml
