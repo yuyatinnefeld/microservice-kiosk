@@ -33,4 +33,4 @@ istio:
   gateway:
     name: cnk-gateway
     port: 80
-  hostname: "gateway.cnk.com"
+    hostname: "gateway.cnk.com"
