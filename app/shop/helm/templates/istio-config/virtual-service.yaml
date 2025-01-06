@@ -19,7 +19,7 @@ spec:
         host: {{ .Values.global.productName }}-{{ .Values.shop.frontend.name }}
   - match:
     - uri:
-        prefix: /backend
+        prefix: /backend-inventory
     route:
     - destination:
         port:

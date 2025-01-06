@@ -18,16 +18,15 @@ kubectl apply -f argocd/applicationset-istio-gateways.yaml
 kubectl apply -f argocd/applicationset-istio-monitor.yaml
 kubectl apply -f argocd/applicationset-istio-testapp.yaml
 
-# deploy testkube components
-kubectl apply -f argocd/applicationset-testkube-init.yaml
-kubectl apply -f argocd/applicationset-testkube-tests.yaml
+# deploy shop apps
+kubectl apply -f argocd/applicationset-cnk-shop.yaml
+kubectl apply -f argocd/applicationset-metallb.yaml
 
 # deploy secrets components
 kubectl apply -f argocd/applicationset-vault-server.yaml
 kubectl apply -f argocd/applicationset-vault-eso.yaml
 
-# deploy shop apps
-kubectl apply -f argocd/applicationset-cnk-shop.yaml
-kubectl apply -f argocd/applicationset-metallb.yaml
-
+# deploy testkube components
+kubectl apply -f argocd/applicationset-testkube-init.yaml
+kubectl apply -f argocd/applicationset-testkube-tests.yaml
 ```
