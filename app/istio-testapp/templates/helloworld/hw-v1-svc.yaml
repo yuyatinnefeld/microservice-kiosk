@@ -14,4 +14,4 @@ spec:
       name: "http-{{ .Values.hw.labels.app }}"
       targetPort: {{ .Values.hw.service.targetPort }}
       protocol: {{ .Values.hw.service.protocol }}
-  type: {{ .Values.hw.service.type }}
+  type: NodePort
