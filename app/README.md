@@ -27,6 +27,7 @@ kubectl exec "$SOURCE_POD" -c sleep -- curl -sSI $TARGET_URL | grep  "HTTP/"
 
 for i in {1..20}; do kubectl exec "$SOURCE_POD" -c sleep -- curl -sSI $TARGET_URL | grep  "HTTP/"; done
 
+# v1 1%, v2 99%
 while true; do kubectl exec "$SOURCE_POD" -c sleep -- curl $TARGET_URL 2>/dev/null | grep -E "APP: .* "; done
 ```
 
@@ -56,8 +57,8 @@ export IMAGE_NAME="yuyatinnefeld/cnk-frontend"
 docker build -t ${IMAGE_NAME} .
 docker run -it -p 9990:9990 -e ENV=DOCKER-DEV --net=host ${IMAGE_NAME}
 
-docker image tag ${IMAGE_NAME} ${IMAGE_NAME}:1.0.1
-docker image push ${IMAGE_NAME}:1.0.1
+docker image tag ${IMAGE_NAME} ${IMAGE_NAME}:1.0.2
+docker image push ${IMAGE_NAME}:1.0.2
 # verify
 curl http://localhost:9990
 curl http://localhost:9990/health
@@ -71,7 +72,7 @@ curl http://localhost:9990/fetch-item?index=1
 - ArgoCD (incl. MetalLB)
 
 ```bash
-curl frontend.testapp.com:9990
-curl frontend.testapp.com:9990/fetch-item?index=1
-curl backend-inventory.testapp.com:9991/items/2
+curl cnk.com:9990
+curl cnk.com:9990/fetch-item?index=1
+curl backend-inventory.cnk.com:9991/items/2
 ```

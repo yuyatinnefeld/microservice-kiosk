@@ -29,5 +29,7 @@ vi /etc/hosts
 curl cnk.com:9990
 curl backend.cnk.com:9991
 curl backend.cnk.com:9991/items/1
-curl testapp.cnk.com:7777
+
+curl testapp.cnk.com:7777 # hw1 and hw2
+curl 172.18.0.153:7777 # hw1 and hw2
 ```

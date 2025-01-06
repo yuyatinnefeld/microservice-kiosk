@@ -58,75 +58,75 @@ func healthHandler(w http.ResponseWriter, r *http.Request) {
 
 // Handles fetching item details from the backend with detailed logging.
 func fetchItemHandler(w http.ResponseWriter, r *http.Request) {
-	log.Println("Starting fetchItemHandler")
+    log.Println("Starting fetchItemHandler")
 
-	// Extract item index from the query parameters
-	itemIndex := r.URL.Query().Get("index")
-	if itemIndex == "" {
-		log.Println("Missing 'index' query parameter")
-		http.Error(w, "Missing 'index' query parameter", http.StatusBadRequest)
-		return
-	}
-	log.Printf("Received 'index' query parameter: %s", itemIndex)
+    // Extract item index from the query parameters
+    itemIndex := r.URL.Query().Get("index")
+    if itemIndex == "" {
+        log.Println("Missing 'index' query parameter")
+        http.Error(w, "Missing 'index' query parameter", http.StatusBadRequest)
+        return
+    }
+    log.Printf("Received 'index' query parameter: %s", itemIndex)
 
-	// Validate item index
-	_, err := strconv.Atoi(itemIndex)
-	if err != nil {
-		log.Printf("Invalid 'index' query parameter: %s", itemIndex)
-		http.Error(w, "Invalid 'index' query parameter", http.StatusBadRequest)
-		return
-	}
+    // Validate item index
+    if _, err := strconv.Atoi(itemIndex); err != nil {
+        log.Printf("Invalid 'index' query parameter: %s", itemIndex)
+        http.Error(w, "Invalid 'index' query parameter", http.StatusBadRequest)
+        return
+    }
 
-	// Determine backend URL based on the environment
-	env := os.Getenv("ENV")
-	var backendURL string
-	switch env {
-	case "K8S-DEV":
-		backendURL = fmt.Sprintf("http://backend-inventory.testapp.com:9991/items/%s", itemIndex)
-	case "DOCKER-DEV":
-		backendURL = fmt.Sprintf("http://localhost:9991/items/%s", itemIndex)
-	default:
-		backendURL = fmt.Sprintf("http://127.0.0.1:9991/items/%s", itemIndex)
-	}
+    // Determine backend URL based on the environment
+    env := os.Getenv("ENV")
+    backendURL := determineBackendURL(env, itemIndex)
+    log.Printf("Determined backend URL based on ENV='%s': %s", env, backendURL)
 
-	log.Printf("Determined backend URL based on ENV='%s': %s", env, backendURL)
+    // Send request to backend
+    log.Println("Sending request to backend")
+    resp, err := http.Get(backendURL)
+    if err != nil {
+        log.Printf("Error calling backend: %v", err)
+        http.Error(w, "Failed to connect to backend", http.StatusInternalServerError)
+        return
+    }
+    defer func() {
+        log.Println("Closing backend response body")
+        resp.Body.Close()
+    }()
 
-	// Send request to backend
-	log.Println("Sending request to backend")
-	resp, err := http.Get(backendURL)
-	if err != nil {
-		log.Printf("Error calling backend: %v", err)
-		http.Error(w, "Failed to connect to backend", http.StatusInternalServerError)
-		return
-	}
-	defer func() {
-		log.Println("Closing backend response body")
-		resp.Body.Close()
-	}()
+    // Log backend response status
+    log.Printf("Received response from backend with status code: %d", resp.StatusCode)
 
-	// Log backend response status
-	log.Printf("Received response from backend with status code: %d", resp.StatusCode)
+    // Read backend response
+    body, err := ioutil.ReadAll(resp.Body)
+    if err != nil {
+        log.Printf("Error reading backend response: %v", err)
+        http.Error(w, "Failed to read backend response", http.StatusInternalServerError)
+        return
+    }
+    log.Println("Successfully read backend response")
 
-	// Read backend response
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		log.Printf("Error reading backend response: %v", err)
-		http.Error(w, "Failed to read backend response", http.StatusInternalServerError)
-		return
-	}
-	log.Println("Successfully read backend response")
-
-	// Forward backend response to client
-	log.Println("Forwarding backend response to client")
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(resp.StatusCode)
-	_, err = w.Write(body)
-	if err != nil {
-		log.Printf("Error writing response to client: %v", err)
-	}
-	log.Println("Response successfully sent to client")
+    // Forward backend response to client
+    log.Println("Forwarding backend response to client")
+    w.Header().Set("Content-Type", "application/json")
+    w.WriteHeader(resp.StatusCode)
+    if _, err := w.Write(body); err != nil {
+        log.Printf("Error writing response to client: %v", err)
+    }
+    log.Println("Response successfully sent to client")
 }
 
+// determineBackendURL constructs the backend URL based on the environment and item index.
+func determineBackendURL(env, itemIndex string) string {
+    switch env {
+    case "K8S-DEV":
+        return fmt.Sprintf("http://cnk-backend-inventory:9991/items/%s", itemIndex)
+    case "DOCKER-DEV":
+        return fmt.Sprintf("http://localhost:9991/items/%s", itemIndex)
+    default:
+        return fmt.Sprintf("http://127.0.0.1:9991/items/%s", itemIndex)
+    }
+}
 
 // Helper function to write a JSON response.
 func writeJSONResponse(w http.ResponseWriter, statusCode int, data interface{}) {
