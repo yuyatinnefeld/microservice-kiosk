@@ -1,0 +1,20 @@
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: allow-frontend-to-backendauthz
+  namespace: {{ .Values.global.namespace }}
+spec:
+  action: ALLOW
+  selector:
+    matchLabels:
+      app: {{ .Values.shop.backendInventory.app }}
+  rules:
+  - from:
+    - source:
+        principals: ["cluster.local/ns/shop/sa/frontend-sa"]
+    - source:
+        principals: ["cluster.local/ns/istio-gateways/sa/istio-ingressgateway-service-account"]
+    to:
+    - operation:
+        methods: ["GET"]
+        paths: ["/", "/health", "/items/*", "/backend-inventory"]

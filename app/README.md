@@ -73,6 +73,7 @@ curl http://localhost:9990/fetch-item?index=1
 
 ```bash
 curl cnk.com:9990
-curl cnk.com:9990/fetch-item?index=1
-curl backend.cnk.com:9991/items/1
+curl cnk.com:9990/fetch-item?index=1 # Allow the access from frontend with authz policy
+curl backend.cnk.com:9991/items/1 # Deny the direct access with authz policy
+curl backend.cnk.com:9991/health # Deny the direct access with authz policy
 ```

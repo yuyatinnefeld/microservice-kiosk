@@ -1,0 +1,15 @@
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: allow-frontend-authz
+  namespace: {{ .Values.global.namespace }}
+spec:
+  action: ALLOW
+  selector:
+    matchLabels:
+      app: {{ .Values.shop.frontend.app }}
+  action: ALLOW
+  rules:
+  - to:
+    - operation:
+        methods: ["GET"]
