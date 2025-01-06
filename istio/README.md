@@ -39,7 +39,11 @@ while true; do kubectl exec "$SLEEP_POD" -c sleep -- curl -sS $TARGET_URL; done;
 ```
 
 ## Check Ingress GW
-
+```bash
+kubectl get gw -A
+kubectl get ingress -A
+curl testapp.cnk.com:7777/hw-all
+```
 
 ## Check Monitoring Tools
 

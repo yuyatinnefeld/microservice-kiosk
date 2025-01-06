@@ -16,13 +16,18 @@ kubectl apply -f metallb/metallb-config-shop.yaml
 
 ## Test External IP and Configure Local DNS
 ```bash
-kubectl get svc # External IP = 172.18.0.150
+kubectl get svc -n shop
+# External IP = 172.18.0.150
 curl 172.18.0.150:9991
 
-vi /etc/hosts # add testapp.com
-#172.18.0.150 backend-inventory.testapp.com
-#172.18.0.151 frontend.testapp.com
+# Setup DNS
+vi /etc/hosts 
+#172.18.0.150 cnk.com
+#172.18.0.151 backend.cnk.com
+#172.18.0.153 testapp.cnk.com
 
-curl backend-inventory.testapp.com:9991
-curl frontend.testapp.com:9990
+curl cnk.com:9990
+curl backend.cnk.com:9991
+curl backend.cnk.com:9991/items/1
+curl testapp.cnk.com:7777
 ```
