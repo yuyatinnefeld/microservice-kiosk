@@ -4,13 +4,13 @@ metadata:
   name: kiali
   namespace: {{ .Values.global.namespace }}
   labels:
-    helm.sh/chart: kiali-server-2.1.0
-    app: kiali
-    app.kubernetes.io/name: kiali
-    app.kubernetes.io/instance: kiali
-    version: "v2.1.0"
-    app.kubernetes.io/version: "v2.1.0"
-    app.kubernetes.io/part-of: "kiali"
+    helm.sh/chart: kiali-server-{{ .Values.kiali.version }}
+    app: {{ .Values.kiali.label }}
+    app.kubernetes.io/name: {{ .Values.kiali.label }}
+    app.kubernetes.io/instance: {{ .Values.kiali.label }}
+    version: {{ .Values.kiali.version }}
+    app.kubernetes.io/version: {{ .Values.kiali.version }}
+    app.kubernetes.io/part-of: {{ .Values.kiali.label }}
 data:
   config.yaml: |
     additional_display_details:

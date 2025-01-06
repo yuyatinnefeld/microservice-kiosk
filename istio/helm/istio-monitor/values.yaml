@@ -2,6 +2,11 @@
 global:
   namespace: istio-monitor #TODO: change later -> istio-monitor
 
+kiali:
+  version: "v2.1.0"
+  image_name: quay.io/kiali/kiali
+  label: kiali
+
 prometheus:
   version: "v2.55.1"
   replicas: 1
