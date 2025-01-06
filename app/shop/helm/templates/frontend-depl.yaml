@@ -22,7 +22,7 @@ spec:
             - name: APP_NAME
               value: {{ .Values.shop.frontend.description }}
             - name: VERSION
-              value: {{ .Values.shop.backendInventory.imageTag }}
+              value: {{ .Values.shop.frontend.imageTag }}
             - name: ENV
               value: {{ .Values.global.env }}
             - name: MY_POD_NAME

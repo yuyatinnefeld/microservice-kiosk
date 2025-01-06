@@ -74,5 +74,5 @@ curl http://localhost:9990/fetch-item?index=1
 ```bash
 curl cnk.com:9990
 curl cnk.com:9990/fetch-item?index=1
-curl backend-inventory.cnk.com:9991/items/2
+curl backend.cnk.com:9991/items/1
 ```

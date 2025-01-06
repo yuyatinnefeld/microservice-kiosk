@@ -1,44 +1,44 @@
-# TODO: this not working with kind-cluster check later!
-apiVersion: networking.istio.io/v1alpha3
-kind: Gateway
-metadata:
-  name: my-istio-igw
-  namespace: istio-testapp
-  annotations:
-    kubernetes.io/ingress.class: "istio"
-spec:
-  selector:
-    istio: ingressgateway
-  servers:
-  - port:
-      number: 80
-      name: http
-      protocol: HTTP
-    hosts:
-    - "testapp.cnk.com"
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: my-istio-ingress
-  namespace: istio-testapp
-  annotations:
-    kubernetes.io/ingress.class: "istio"
-spec:
-  rules:
-  - http:
-      paths:
-      - path: /hw-v1
-        pathType: Exact
-        backend:
-          service:
-            name: hw-svc-v1
-            port:
-              name: "http-hw"
-      - path: /hw-v2
-        pathType: Exact
-        backend:
-          service:
-            name: hw-svc-v2
-            port:
-              name: "http-hw"
+# # TODO: this not working with kind-cluster check later!
+# apiVersion: networking.istio.io/v1alpha3
+# kind: Gateway
+# metadata:
+#   name: my-istio-igw
+#   namespace: istio-testapp
+#   annotations:
+#     kubernetes.io/ingress.class: "istio"
+# spec:
+#   selector:
+#     istio: ingressgateway
+#   servers:
+#   - port:
+#       number: 80
+#       name: http
+#       protocol: HTTP
+#     hosts:
+#     - "testapp.cnk.com"
+# ---
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: my-istio-ingress
+#   namespace: istio-testapp
+#   annotations:
+#     kubernetes.io/ingress.class: "istio"
+# spec:
+#   rules:
+#   - http:
+#       paths:
+#       - path: /hw-v1
+#         pathType: Exact
+#         backend:
+#           service:
+#             name: hw-svc-v1
+#             port:
+#               name: "http-hw"
+#       - path: /hw-v2
+#         pathType: Exact
+#         backend:
+#           service:
+#             name: hw-svc-v2
+#             port:
+#               name: "http-hw"
