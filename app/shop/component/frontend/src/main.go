@@ -138,11 +138,37 @@ func writeJSONResponse(w http.ResponseWriter, statusCode int, data interface{}) 
 	}
 }
 
+// Fetches data from an external ML API.
+func fetchML(w http.ResponseWriter, r *http.Request) {
+    url := "http://localhost:9991/ml"
+    resp, err := http.Get(url)
+    if err != nil {
+        http.Error(w, fmt.Sprintf("Failed to fetch API response: %v", err), http.StatusInternalServerError)
+        return
+    }
+    defer resp.Body.Close()
+
+    body, err := ioutil.ReadAll(resp.Body)
+    if err != nil {
+        http.Error(w, fmt.Sprintf("Failed to read response body: %v", err), http.StatusInternalServerError)
+        return
+    }
+
+    var jsonResponse map[string]interface{}
+    if err := json.Unmarshal(body, &jsonResponse); err != nil {
+        http.Error(w, fmt.Sprintf("Failed to decode JSON response: %v", err), http.StatusInternalServerError)
+        return
+    }
+
+    writeJSONResponse(w, http.StatusOK, jsonResponse)
+}
+
 func main() {
 	const port = 9990
 	http.HandleFunc("/", fetchAPIResourceHandler)
 	http.HandleFunc("/fetch-item", fetchItemHandler)
 	http.HandleFunc("/health", healthHandler)
+	http.HandleFunc("/ml", fetchML)
 
 	log.Printf("Server is running on port %d...", port)
 	if err := http.ListenAndServe(fmt.Sprintf(":%d", port), nil); err != nil {

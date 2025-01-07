@@ -59,10 +59,20 @@ docker run -it -p 9990:9990 -e ENV=DOCKER-DEV --net=host ${IMAGE_NAME}
 
 docker image tag ${IMAGE_NAME} ${IMAGE_NAME}:1.0.2
 docker image push ${IMAGE_NAME}:1.0.2
+
 # verify
 curl http://localhost:9990
 curl http://localhost:9990/health
 curl http://localhost:9990/fetch-item?index=1
+
+# ML Service
+cd app/shop/component/ml
+export IMAGE_NAME="yuyatinnefeld/cnk-ml"
+docker build -t ${IMAGE_NAME} .
+docker run -it -p 9992:9992 -e ENV=DOCKER-DEV --net=host ${IMAGE_NAME}
+
+docker image tag ${IMAGE_NAME} ${IMAGE_NAME}:1.0.0
+docker image push ${IMAGE_NAME}:1.0.0
 ```
 
 ### Image Build Pipeline
