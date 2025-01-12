@@ -51,7 +51,7 @@ func writeJSONResponse(w http.ResponseWriter, statusCode int, data interface{}) 
 
 // Handles health check requests.
 func healthHandler(w http.ResponseWriter, r *http.Request) {
-	response := map[string]string{"status": "healthy"}
+	response := map[string]string{"status": "healthy", "app": "ML"}
 	writeJSONResponse(w, http.StatusOK, response)
 }
 

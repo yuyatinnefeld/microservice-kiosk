@@ -32,7 +32,7 @@ type Item struct {
 // Inventory holds predefined items.
 var inventory = map[int]Item{
     1: {Item: 1, ProductName: "Snickers", PurchasePrice: 1.00, Price: 2.00, Stock: 100},
-    2: {Item: 2, ProductName: "Hanuta Riegel Milch & Nuss - 5 Riegel", PurchasePrice: 2.00, Price: 4.00, Stock: 50},
+    2: {Item: 2, ProductName: "Hanuta Riegel Milch  Nuss - 5 Riegel", PurchasePrice: 2.00, Price: 4.00, Stock: 50},
 }
 
 // Helper function to get an environment variable or return a default value.
@@ -108,7 +108,7 @@ func writeJSONResponse(w http.ResponseWriter, statusCode int, data interface{}) 
 
 // Handles health check requests.
 func healthHandler(w http.ResponseWriter, r *http.Request) {
-    response := map[string]string{"status": "healthy"}
+	response := map[string]string{"status": "healthy", "app": "inventory"}
     writeJSONResponse(w, http.StatusOK, response)
 }
 

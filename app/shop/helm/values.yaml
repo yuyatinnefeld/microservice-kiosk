@@ -12,7 +12,7 @@ shop:
     app: frontend
     port: 9990
     image: yuyatinnefeld/cnk-frontend
-    imageTag: 1.0.2
+    imageTag: 1.1.0
     description: "CKN FRONTEND"
     serviceTypes: LoadBalancer
     http:
@@ -23,7 +23,7 @@ shop:
     app: inventory
     port: 9991
     image: yuyatinnefeld/cnk-backend-inventory
-    imageTag: 1.0.1
+    imageTag: 1.1.0
     description: "CKN BACKEND INVENTORY"
     serviceTypes: LoadBalancer
     http:
@@ -34,7 +34,7 @@ shop:
     app: ml
     port: 9992
     image: yuyatinnefeld/cnk-backend-ml
-    imageTag: 1.0.1
+    imageTag: 1.1.0
     description: "CKN BACKEND ML"
     serviceTypes: LoadBalancer
     http:

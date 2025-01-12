@@ -19,8 +19,8 @@ kubectl apply -f argocd/applicationset-istio-monitor.yaml
 kubectl apply -f argocd/applicationset-istio-testapp.yaml
 
 # deploy shop apps
-kubectl apply -f argocd/applicationset-cnk-shop.yaml
 kubectl apply -f argocd/applicationset-metallb.yaml
+kubectl apply -f argocd/applicationset-cnk-shop.yaml
 
 # deploy secrets components
 kubectl apply -f argocd/applicationset-vault-server.yaml
