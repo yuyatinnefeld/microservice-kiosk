@@ -17,6 +17,7 @@ module "kind_cluster" {
   
   namespaces = {
     "argocd"         = "argocd"
+    "external"       = "external"
     "istio-gateways" = "istio-gateways"
     "istio-monitor"  = "istio-monitor"
     "istio-system"   = "istio-system"

@@ -29,6 +29,17 @@ shop:
     http:
       name: http-inventory
 
+  backendML:
+    name: backend-ml
+    app: ml
+    port: 9992
+    image: yuyatinnefeld/cnk-backend-ml
+    imageTag: 1.0.1
+    description: "CKN BACKEND ML"
+    serviceTypes: LoadBalancer
+    http:
+      name: http-ml
+
 istio:
   gateway:
     name: cnk-gateway

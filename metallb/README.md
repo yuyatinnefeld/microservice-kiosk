@@ -9,11 +9,6 @@ docker inspect my-cluster-control-plane | jq -r ".[0].NetworkSettings.Networks.k
 ### Deploy Metallab speaker and controller
 - ArgoCD
 
-```bash
-kubectl get pod -n shop
-kubectl apply -f metallb/metallb-config-shop.yaml
-```
-
 ## Test External IP and Configure Local DNS
 ```bash
 kubectl get svc -n shop
