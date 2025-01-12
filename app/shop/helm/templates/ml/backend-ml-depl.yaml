@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  # annotations:
+  #   argocd.argoproj.io/sync-wave: "2"
+  name: {{ .Values.global.productName }}-{{ .Values.shop.backendML.name }}
+  namespace: {{ .Values.global.namespace }}
+  labels:
+    app:  {{ .Values.shop.backendML.app }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app:  {{ .Values.shop.backendML.app }}
+  template:
+    metadata:
+      labels:
+        app:  {{ .Values.shop.backendML.app }}
+    spec:
+      containers:
+        - name: {{ .Values.shop.backendML.app }}
+          image: {{ .Values.shop.backendML.image }}:{{ .Values.shop.backendML.imageTag }}
+          env:
+            - name: APP_NAME
+              value: {{ .Values.shop.backendML.description }}
+            - name: VERSION
+              value: {{ .Values.shop.backendML.imageTag }}
+            - name: ENV
+              value: {{ .Values.global.env }}
+            - name: MY_POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: {{ .Values.shop.backendML.port }}
+            initialDelaySeconds: 5
+            periodSeconds: 10

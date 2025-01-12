@@ -1,8 +1,8 @@
 apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
-  annotations:
-    argocd.argoproj.io/sync-wave: "3"
+  # annotations:
+  #   argocd.argoproj.io/sync-wave: "3"
   name: cnk-virtualservice
   namespace: {{ .Values.global.namespace }}
 spec:
@@ -13,7 +13,13 @@ spec:
   http:
   - match:
     - uri:
-        prefix: /frontend
+        exact: /
+    - uri:
+        exact: /health
+    - uri:
+        prefix: /fetch-item # Call Inventory API
+    - uri:
+        prefix: /ml # Call Inventory API -> ML API
     route:
     - destination:
         port:

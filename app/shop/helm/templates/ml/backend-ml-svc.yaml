@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  # annotations:
+  #   argocd.argoproj.io/sync-wave: "2"
+  name: {{ .Values.global.productName }}-{{ .Values.shop.backendML.name }}
+  namespace: {{ .Values.global.namespace }}
+spec:
+  selector:
+    app: {{ .Values.shop.backendML.app }}
+  ports:
+    - port: {{ .Values.shop.backendML.port }}
+      targetPort: {{ .Values.shop.backendML.port }}
+      name: {{ .Values.shop.backendML.http.name }}
+  type: {{ .Values.shop.frontend.serviceTypes }}

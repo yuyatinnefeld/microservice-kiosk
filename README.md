@@ -2,10 +2,27 @@
 Welcome to the Microservice Kiosk project! This repository is a hands-on exploration of modern cloud-native technologies, including ArgoCD, Istio as a service mesh, HashiCorp Vault, Terraform, Google Cloud Platform (GCP), and more. The goal is to deepen understanding and practical experience with these tools in a microservices architecture. In a typical microservices architecture, each service is often stored in its own repository. However, for the purpose of this project, I have consolidated all important source code into one repo to simplify management.
 
 ## Deployment Architecture
-![Screenshot](/images/cnk-architecture.png)
+![Screenshot](/images/cnk-deployment.png)
+
+- Provision the kind-cluster using Terraform.
+- Build images with GitHub Actions and push to DockerHub.
+- Manage secrets with Vault and ExternalSecretOperator.
+- Implement service mesh using Istio.
+- Conduct application and Istio testing via Testkube.
+- Deploy and manage the cluster using ArgoCD.
+
 
 ## Application Architecture
-![Screenshot](/images/cnk-application-diagram.png)
+![Screenshot](/images/cnk-application.png)
+
+Key components include:
+- Frontend service, interacting with users and external APIs.
+- Backend services like item, account, inventory, and ML for handling business logic and data processing.
+- Gateway (GW) for routing traffic, connected to VirtualService (VS) and DestinationRule (DR) for traffic management.
+- Istiod in the istio-system manages service mesh configurations.
+- Certs are managed for secure communication.
+- Self-signed SubCA is pushed into the Vault via and External Secret Operator.
+
 
 ## Table of Contents
 - [Cluster Provisioning: Kind-Cluster + Terraform](IaC/README.md)

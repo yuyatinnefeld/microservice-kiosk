@@ -78,7 +78,7 @@ func fetchItemHandler(w http.ResponseWriter, r *http.Request) {
 
     // Determine backend URL based on the environment
     env := os.Getenv("ENV")
-    backendURL := determineBackendURL(env, itemIndex)
+    backendURL := determineBackendURL(env, "items", itemIndex)
     log.Printf("Determined backend URL based on ENV='%s': %s", env, backendURL)
 
     // Send request to backend
@@ -116,16 +116,21 @@ func fetchItemHandler(w http.ResponseWriter, r *http.Request) {
     log.Println("Response successfully sent to client")
 }
 
-// determineBackendURL constructs the backend URL based on the environment and item index.
-func determineBackendURL(env, itemIndex string) string {
-    switch env {
-    case "K8S-DEV":
-        return fmt.Sprintf("http://cnk-backend-inventory:9991/items/%s", itemIndex)
-    case "DOCKER-DEV":
-        return fmt.Sprintf("http://localhost:9991/items/%s", itemIndex)
-    default:
-        return fmt.Sprintf("http://127.0.0.1:9991/items/%s", itemIndex)
-    }
+// determineBackendURL constructs the backend URL based on the environment.
+func determineBackendURL(env, endpoint, itemIndex string) string {
+	baseURL := map[string]string{
+		"K8S-DEV":   "http://cnk-backend-inventory:9991",
+		"DOCKER-DEV": "http://localhost:9991",
+	}[env]
+
+	if baseURL == "" {
+		baseURL = "http://127.0.0.1:9991"
+	}
+
+	if itemIndex == "" {
+		return fmt.Sprintf("%s/%s", baseURL, endpoint)
+	}
+	return fmt.Sprintf("%s/%s/%s", baseURL, endpoint, itemIndex)
 }
 
 // Helper function to write a JSON response.
@@ -140,8 +145,10 @@ func writeJSONResponse(w http.ResponseWriter, statusCode int, data interface{}) 
 
 // Fetches data from an external ML API.
 func fetchML(w http.ResponseWriter, r *http.Request) {
-    url := "http://localhost:9991/ml"
-    resp, err := http.Get(url)
+    env := os.Getenv("ENV")
+	mlURL := determineBackendURL(env, "ml", "")
+
+    resp, err := http.Get(mlURL)
     if err != nil {
         http.Error(w, fmt.Sprintf("Failed to fetch API response: %v", err), http.StatusInternalServerError)
         return

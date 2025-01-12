@@ -57,7 +57,7 @@ func healthHandler(w http.ResponseWriter, r *http.Request) {
 
 // ML requests.
 func MLHandler(w http.ResponseWriter, r *http.Request) {
-	response := map[string]string{"ML": "calculating from ML"}
+	response := map[string]string{"status": "data calculated from ML🤖"}
 	writeJSONResponse(w, http.StatusOK, response)
 }
 

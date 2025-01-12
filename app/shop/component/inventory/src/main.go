@@ -112,10 +112,24 @@ func healthHandler(w http.ResponseWriter, r *http.Request) {
     writeJSONResponse(w, http.StatusOK, response)
 }
 
+// determineBackendURL constructs the ML URL based on the environment.
+func determineBackendURL(env string) string {
+    switch env {
+    case "K8S-DEV":
+        return fmt.Sprintf("http://cnk-backend-ml:9992/ml")
+    case "DOCKER-DEV":
+        return fmt.Sprintf("http://localhost:9992/ml")
+    default:
+        return fmt.Sprintf("http://127.0.0.1:9992/ml")
+    }
+}
+
 // Fetches data from an external ML API.
 func fetchML(w http.ResponseWriter, r *http.Request) {
-    url := "http://localhost:9992/ml"
-    resp, err := http.Get(url)
+    env := os.Getenv("ENV")
+    mlURL := determineBackendURL(env)
+
+    resp, err := http.Get(mlURL)
     if err != nil {
         http.Error(w, fmt.Sprintf("Failed to fetch API response: %v", err), http.StatusInternalServerError)
         return
@@ -128,26 +142,25 @@ func fetchML(w http.ResponseWriter, r *http.Request) {
         return
     }
 
-	var jsonResponse map[string]interface{}
-	if err := json.Unmarshal(body, &jsonResponse); err != nil {
-		http.Error(w, fmt.Sprintf("Failed to decode JSON response: %v", err), http.StatusInternalServerError)
-		return
-	}
-	
-	// Concatenate the string value of the "ML" key
-	if mlValue, ok := jsonResponse["ML"].(string); ok {
-		jsonResponse["ML"] = mlValue + " + INVENTOR - UPDATED"
-	}
-	
-	writeJSONResponse(w, http.StatusOK, jsonResponse)
+    var jsonResponse map[string]interface{}
+    if err := json.Unmarshal(body, &jsonResponse); err != nil {
+        http.Error(w, fmt.Sprintf("Failed to decode JSON response: %v", err), http.StatusInternalServerError)
+        return
+    }
+    
+    // Ensure "status" is updated properly
+    if statusValue, ok := jsonResponse["status"].(string); ok {
+        jsonResponse["status"] = statusValue + " and validated from Inventory👌"
+    }
+    writeJSONResponse(w, http.StatusOK, jsonResponse)
 }
 
 func main() {
     const port = 9991
     http.HandleFunc("/", fetchAPIResourceHandler)
+    http.HandleFunc("/health", healthHandler)
     http.HandleFunc("/post", createAPIResourceHandler)
     http.HandleFunc("/items/", getItemHandler) // Handle all /items/<id> requests dynamically
-    http.HandleFunc("/health", healthHandler)
     http.HandleFunc("/ml", fetchML)
 
     log.Printf("Server is running on port %d...", port)
