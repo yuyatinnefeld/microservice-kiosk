@@ -1,6 +1,8 @@
 apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
   name: cnk-virtualservice
   namespace: {{ .Values.global.namespace }}
 spec:
