@@ -16,13 +16,11 @@ Welcome to the Microservice Kiosk project! This repository is a hands-on explora
 ![Screenshot](/images/cnk-application.png)
 
 Key components include:
+- Istio Gateway (GW) for routing traffic, connected to VirtualService (VS) and DestinationRule (DR) for traffic management.
 - Frontend service, interacting with users and external APIs.
 - Backend services like item, account, inventory, and ML for handling business logic and data processing.
-- Gateway (GW) for routing traffic, connected to VirtualService (VS) and DestinationRule (DR) for traffic management.
 - Istiod in the istio-system manages service mesh configurations.
-- Certs are managed for secure communication.
-- Self-signed SubCA is pushed into the Vault via and External Secret Operator.
-
+- Self-signed Certs for secure communication is pushed into the Vault via and External Secret Operator.
 
 ## Table of Contents
 - [Cluster Provisioning: Kind-Cluster + Terraform](IaC/README.md)

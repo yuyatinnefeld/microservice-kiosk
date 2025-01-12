@@ -1,4 +1,4 @@
-# Istion
+# Istio
 
 ## Check Istio Config
 ```bash
