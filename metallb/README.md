@@ -13,19 +13,24 @@ docker inspect my-cluster-control-plane | jq -r ".[0].NetworkSettings.Networks.k
 ```bash
 kubectl get svc -n shop
 # External IP = 172.18.0.150
-curl 172.18.0.150:9991
+curl 172.18.0.151:9990
+
 
 # Setup DNS
 vi /etc/hosts 
-# 172.18.0.150 cnk.com
-# 172.18.0.151 backend.cnk.com
-# 172.18.0.152 gateway.cnk.com
+# 172.18.0.150 gateway.cnk.com
+# 172.18.0.151 cnk.com
+# 172.18.0.152 backend.cnk.com
 # 172.18.0.153 testapp.cnk.com
 
 curl cnk.com:9990
+curl cnk.com:9990/health
+curl cnk.com:9990/fetch-item?index=1
+
+# RBAC: access denied -> Istio AuthZ Policy
 curl backend.cnk.com:9991
+curl backend.cnk.com:9991/health
 curl backend.cnk.com:9991/items/1
 
 curl testapp.cnk.com:7777 # hw1 and hw2
-curl 172.18.0.153:7777 # hw1 and hw2
 ```

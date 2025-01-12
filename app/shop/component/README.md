@@ -107,18 +107,19 @@ curl gateway.cnk.com:80
 
 ### Authzation Policy
 ```bash
-# allow to call frontend endpoint directly
+# allow access frontend endpoint directly
 curl cnk.com:9990
 curl cnk.com:9990/health
 curl gateway.cnk.com:80
 curl gateway.cnk.com:80/health
 
-# all to call backend endpoint via frontend and gateway
+# allow access backend endpoint via frontend and gateway
 curl cnk.com:9990/fetch-item?index=1
 curl gateway.cnk.com:80/backend-inventory
+curl gateway.cnk.com:80/fetch-item?index=1
+curl gateway.cnk.com:80/fetch-item?index=2
 
-# deny to call backend endpoint directly
-# RBAC: access denied
+# access denied
 curl backend.cnk.com:9991
 curl backend.cnk.com:9991/health
 curl backend.cnk.com:9991/items/1
