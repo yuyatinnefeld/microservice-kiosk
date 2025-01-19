@@ -6,6 +6,12 @@ global:
   env: K8S-DEV
   productName: cnk
 
+istio:
+  gateway:
+    name: cnk-gateway
+    port: 80
+    hostname: "gateway.cnk.com"
+
 shop:
   frontend: 
     name: frontend
@@ -39,9 +45,3 @@ shop:
     serviceTypes: LoadBalancer
     http:
       name: http-ml
-
-istio:
-  gateway:
-    name: cnk-gateway
-    port: 80
-    hostname: "gateway.cnk.com"
