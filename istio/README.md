@@ -35,3 +35,6 @@ kubectl port-forward svc/kiali -n istio-monitor 20001
 # Grafana
 kubectl port-forward svc/grafana -n istio-monitor 3000
 ```
+
+## PeerAuthentication mTLS strict
+- [mTLS Setup](security/README.md)

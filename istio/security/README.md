@@ -1,6 +1,7 @@
 # Istio Security Setup
+- By default the Istio CA generates a self-signed root certificate and key and uses them to sign the workload certificates.
 
-## mTLS Connection with CA Certificates
+## mTLS Connection with Your Own CA Certificates
 - Source: https://istio.io/latest/docs/tasks/security/cert-management/plugin-ca-cert/
 
 ### Create a Secret 'cacerts' and deploy PeerAuth
@@ -24,7 +25,10 @@ curl cnk.com:9990/ml
 # istio gateway
 curl gateway.cnk.com:80
 curl gateway.cnk.com:80/ml
+```
 
+### Deploy PeerAuthentication
+```bash
 # activate mTLS
 kubectl apply -f peerAuthentication.yaml
 
