@@ -170,12 +170,38 @@ func fetchML(w http.ResponseWriter, r *http.Request) {
     writeJSONResponse(w, http.StatusOK, jsonResponse)
 }
 
+func fetchExternalAPI(w http.ResponseWriter, r *http.Request) {
+    externalURL := "http://external.com:9999"
+
+    resp, err := http.Get(externalURL)
+    if err != nil {
+        http.Error(w, fmt.Sprintf("Failed to fetch API response: %v", err), http.StatusInternalServerError)
+        return
+    }
+    defer resp.Body.Close()
+
+    body, err := ioutil.ReadAll(resp.Body)
+    if err != nil {
+        http.Error(w, fmt.Sprintf("Failed to read response body: %v", err), http.StatusInternalServerError)
+        return
+    }
+
+    var jsonResponse map[string]interface{}
+    if err := json.Unmarshal(body, &jsonResponse); err != nil {
+        http.Error(w, fmt.Sprintf("Failed to decode JSON response: %v", err), http.StatusInternalServerError)
+        return
+    }
+
+    writeJSONResponse(w, http.StatusOK, jsonResponse)
+}
+
 func main() {
 	const port = 9990
 	http.HandleFunc("/", fetchAPIResourceHandler)
 	http.HandleFunc("/fetch-item", fetchItemHandler)
 	http.HandleFunc("/health", healthHandler)
 	http.HandleFunc("/ml", fetchML)
+	http.HandleFunc("/external", fetchExternalAPI)
 
 	log.Printf("Server is running on port %d...", port)
 	if err := http.ListenAndServe(fmt.Sprintf(":%d", port), nil); err != nil {
