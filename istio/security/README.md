@@ -43,8 +43,8 @@ curl gateway.cnk.com:80/ml
 
 ### Connenction Test in Frontend-POD
 ```bash
-FRONTEND_POD=$(k get pod -l app=frontend -o jsonpath='{.items[0].metadata.name}')
-k exec -c istio-proxy $FRONTEND_POD -it -- bash
+FRONTEND_POD=$(kubectl get pod -l app=frontend -o jsonpath='{.items[0].metadata.name}')
+kubectl exec -c istio-proxy $FRONTEND_POD -it -- bash
 ```
 
 ```bash

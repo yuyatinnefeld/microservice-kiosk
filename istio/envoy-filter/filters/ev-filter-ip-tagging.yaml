@@ -1,0 +1,23 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: ip-tagging
+  namespace: shop
+spec:
+  configPatches:
+  - applyTo: HTTP_FILTER
+    match:
+      context: SIDECAR_INBOUND
+    patch:
+      operation: INSERT_BEFORE
+      value:
+        name: envoy.filters.http.ip_tagging
+        typed_config:
+          "@type": "type.googleapis.com/udpa.type.v1.TypedStruct"
+          type_url: "type.googleapis.com/envoy.extensions.filters.http.ip_tagging.v3.IPTagging"
+          value:
+            ip_tags:
+            - ip_tag_name: my-filter
+              ip_list:
+                address_prefix: 0.0.0.0
+                prefix_in: 0

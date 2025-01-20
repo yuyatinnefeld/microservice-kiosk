@@ -1,0 +1,18 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: remove-x-envoy-param
+  namespace: shop
+spec:
+  configPatches:
+  - applyTo: ROUTE_CONFIGURATION
+    patch:
+      operation: MERGE
+      value:
+        response_headers_to_remove:
+          - x-request-id
+          - x-forwarded-proto
+          - x-envoy-decorator-operation
+          - x-envoy-peer-metadata-id
+          - x-envoy-peer-metadata
+          - x-envoy-upstream-service-time

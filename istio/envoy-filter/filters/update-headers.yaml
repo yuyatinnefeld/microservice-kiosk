@@ -1,0 +1,37 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: update-headers
+  namespace: shop
+spec:
+  configPatches:
+  - applyTo: HTTP_FILTER
+    patch:
+      operation: INSERT_BEFORE
+      value:
+        name: envoy.filters.http.lua
+        typed_config:
+          "@type": "type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua"
+          defaultSourceCode:
+            inlineString: |
+              function envoy_on_request(request_handle)
+                -- Get the value of the myMessage header
+                local myMessage = request_handle:headers():get("myMessage")
+                
+                -- If the header exists and its value is testYUYA, change it to HolaLOLOLO
+                if myMessage == "testYUYA" then
+                  request_handle:headers():replace("myMessage", "Halloooooooooo-from-Envoy")
+                end
+                
+                -- Log the updated myMessage header value
+                request_handle:logInfo("myMessage: " .. request_handle:headers():get("myMessage"))
+
+                -- Manipulate the x-request-id header
+                local xRequestId = request_handle:headers():get("x-request-id")
+                if xRequestId then
+                  request_handle:headers():replace("x-request-id", "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
+                end
+                
+                -- Log the updated x-request-id header value
+                request_handle:logInfo("x-request-id: " .. request_handle:headers():get("x-request-id"))
+              end
