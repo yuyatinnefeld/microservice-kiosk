@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  # annotations:
+  #   argocd.argoproj.io/sync-wave: "2"
+  name: {{ .Values.global.productName }}-{{ .Values.api.external.name }}
+  namespace: {{ .Values.api.external.namespace }}
+spec:
+  selector:
+    app: {{ .Values.api.external.app }}
+  ports:
+    - port: {{ .Values.api.external.port }}
+      targetPort: {{ .Values.api.external.port }}
+      name: {{ .Values.api.external.http.name }}
+  type: {{ .Values.shop.frontend.serviceTypes }}

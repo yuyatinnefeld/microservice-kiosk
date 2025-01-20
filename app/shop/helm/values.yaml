@@ -45,3 +45,16 @@ shop:
     serviceTypes: LoadBalancer
     http:
       name: http-ml
+
+api:
+  external:
+    name: external
+    namespace: external
+    app: external
+    port: 9999
+    image: yuyatinnefeld/cnk-external
+    imageTag: 1.0.0
+    description: "CKN EXTERNAL API"
+    serviceTypes: LoadBalancer
+    http:
+      name: http-external
