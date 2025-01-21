@@ -2,7 +2,7 @@ apiVersion: networking.istio.io/v1
 kind: Gateway
 metadata:
   annotations:
-    argocd.argoproj.io/sync-wave: "4"
+    argocd.argoproj.io/sync-wave: "5"
   name: {{ .Values.istio.gateway.name }}
   namespace: {{ .Values.global.namespace }}
 spec:

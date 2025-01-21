@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   annotations:
-    argocd.argoproj.io/sync-wave: "3"
+    argocd.argoproj.io/sync-wave: "4"
   name: {{ .Values.global.productName }}-{{ .Values.api.external.name }}
   namespace: {{ .Values.api.external.namespace }}
 spec:
